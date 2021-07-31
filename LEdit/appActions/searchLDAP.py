@@ -17,6 +17,14 @@ def getBaseName():
         print(str(e))
         return False
 
+def editRequesetFull(request):
+    from . import connections
+    bindResult = connections.bind(conn)
+    if not (bindResult == None):
+        connections.disconnect(conn)
+        querryResult = [False, bindResult]
+        return querryResult
+        
 def searchQuerryFull(request):
     from . import connections
 
@@ -28,12 +36,6 @@ def searchQuerryFull(request):
     if conn == None:
         print("[ERROR] Search failed due to failed connection")
         querryResult = [False, "[ERROR] Search failed due to failed connection"]
-        return querryResult
-    
-    bindResult = connections.bind(conn)
-    if not (bindResult == None):
-        connections.disconnect(conn)
-        querryResult = [False, bindResult]
         return querryResult
     
     # Pull config for DN Search Bases
