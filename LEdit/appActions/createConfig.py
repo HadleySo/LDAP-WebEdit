@@ -10,7 +10,9 @@ def main(request):
             # modify config
             cfg['LDAP'] = {'ip_address' : request.form['ipAdd'],
                 'SearchBaseOne' : request.form['SearchBaseOne'],
-                'SearchBaseTwo' : request.form['SearchBaseTwo']}
+                'SearchBaseTwo' : request.form['SearchBaseTwo'],
+                'SearchBaseOne-Name' : request.form['SearchBaseOne_Name'],
+                'SearchBaseTwo-Name' : request.form['SearchBaseTwo_Name']}
             cfg['CREDENTIALS'] = {'DN' : request.form['DN'],
                 'PW' : request.form['PW']}  
 
