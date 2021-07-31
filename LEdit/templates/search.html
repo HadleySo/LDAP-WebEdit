@@ -51,6 +51,16 @@ Search
 
     <p id="whiteText">{{ searchResults }}</p>
 
+    <table id="whiteText">
+        {% for entry in searchTable %}
+            <tr>
+                {% for value in entry.values() %}
+                    <td class="col-md-2">{{ value }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
     <p id="grayText">
         Copyright 2021. <br>
     </p>

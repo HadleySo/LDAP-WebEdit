@@ -90,3 +90,36 @@ def searchQuerryFull(request):
 
     querryResult = [False, "[ERROR] Unable to complete search. Unknown reason"]
     return querryResult
+
+def resultCleaner(results):
+    print("INFO: Cleaning LDAP search results")
+    
+    import re
+    
+    listDic = []
+    for entry in results:
+        data = str(entry[1])
+        
+        cn = re.findall('\'cn\': \[b\'(.*?)\'\]', data)
+        sn = re.findall('\'sn\': \[b\'(.*?)\'\]', data)
+        telephoneNumber = re.findall('\'telephoneNumber\': \[b\'(.*?)\'\]', data)
+        description = re.findall('\'description\': \[b\'(.*?)\'\]', data)
+
+        if len(cn) == 0:
+            cn.append("None")
+        if len(sn) == 0:
+            sn.append("None")
+        if len(telephoneNumber) == 0:
+            telephoneNumber.append("None")
+        if len(description) == 0:
+            description.append("None")
+
+        dict = {
+            "cn" : cn[0],
+            "sn" : sn[0],
+            "tel" : telephoneNumber[0],
+            "desc" : description[0]
+        }
+        listDic.append(dict)
+    print(listDic)
+    return listDic

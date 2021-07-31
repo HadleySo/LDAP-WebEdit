@@ -60,7 +60,8 @@ def search(name=None):
         if querryResults[0] == False:    # Search failed
             return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, blueMessage = querryResults[1], searchResults = "ERROR - Unable to complete search")
         if querryResults[0] == True:
-            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = querryResults[1])
+            tableResults = searchLDAP.resultCleaner(querryResults[1])
+            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults)
 
         
 
