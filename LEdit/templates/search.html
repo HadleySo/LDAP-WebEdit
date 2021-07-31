@@ -51,15 +51,23 @@ Search
 
     <p id="whiteText">{{ searchResults }}</p>
 
-    <table id="whiteText">
+    {% if searchTable != None %}
+    <table id="whiteTable">
+        <tr>
+            <th>First Name (cn)</th>
+            <th>Last Name (sn)</th>
+            <th>Phone Number</th>
+            <th>Description</th>
+        </tr>
         {% for entry in searchTable %}
             <tr>
-                {% for value in entry.values() %}
-                    <td class="col-md-2">{{ value }}</td>
+                {% for value in entry %}
+                    <td class="col-md-2">{{ entry[value] }}</td>
                 {% endfor %}
             </tr>
         {% endfor %}
     </table>
+    {% endif %}
 
     <p id="grayText">
         Copyright 2021. <br>

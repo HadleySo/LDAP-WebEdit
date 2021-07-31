@@ -76,7 +76,7 @@ def searchQuerryFull(request):
         successResults = conn.search_s( dn, ldap.SCOPE_SUBTREE, searchFilter, attr_name )
         if len(successResults) == 0:
             successResults = "Your querry had no matches"
-        querryResult = [True, successResults]
+        querryResult = [True, None, successResults]
         connections.disconnect(conn)
         return querryResult
     except Exception as e:
@@ -85,15 +85,16 @@ def searchQuerryFull(request):
         querryResult = [False, "[ERROR] Unable to complete search. " + str(e)]
         return querryResult
 
-    # Close connection when done
-    connections.disconnect(conn)
-
-    querryResult = [False, "[ERROR] Unable to complete search. Unknown reason"]
-    return querryResult
-
 def resultCleaner(results):
     print("INFO: Cleaning LDAP search results")
-    
+    if not isinstance(results, list):
+        print("INFO: resultCleaner input was not a list" + str(type(results)))
+        rtnList = [False, results, "resultCleaner input was not a list" + str(type(results))]
+        return rtnList
+    if results == None:
+        print("INFO: resultCleaner input was a None value")
+        rtnList = [False, results, "resultCleaner input was a None value"]
+        return rtnList
     import re
     
     listDic = []
@@ -121,5 +122,8 @@ def resultCleaner(results):
             "desc" : description[0]
         }
         listDic.append(dict)
+    
+    rtnList = [True, listDic]
+    print("Cleaned data in dict as list:")
     print(listDic)
-    return listDic
+    return rtnList

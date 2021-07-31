@@ -32,3 +32,10 @@
     border-radius: 0;
     font-size: 1vmax;
 }
+
+#whiteTable {
+    color: var(--color-white);
+}
+#whiteTable tr, th, td {
+    padding: 15px;
+}

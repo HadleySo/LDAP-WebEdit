@@ -60,10 +60,13 @@ def search(name=None):
         if querryResults[0] == False:    # Search failed
             return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, blueMessage = querryResults[1], searchResults = "ERROR - Unable to complete search")
         if querryResults[0] == True:
-            tableResults = searchLDAP.resultCleaner(querryResults[1])
-            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults)
+            tableResults = searchLDAP.resultCleaner(querryResults[2])
+            print(tableResults)
 
-        
+            if tableResults[0] == True:
+                return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1])
+            elif tableResults[0] == False:
+                return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None)        
 
 @app.errorhandler(404)
 def page_not_found(error):
