@@ -19,6 +19,13 @@ def getBaseName():
 
 def editRequesetFull(request):
     from . import connections
+
+    # Connect and Bind to LDAP server
+    conn = connections.connect()
+    if conn == None:
+        print("[ERROR] Search failed due to failed connection")
+        querryResult = [False, "[ERROR] Search failed due to failed connection"]
+        return querryResult
     bindResult = connections.bind(conn)
     if not (bindResult == None):
         connections.disconnect(conn)
