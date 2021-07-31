@@ -47,6 +47,21 @@ def search(name=None):
     print("INFO: Incoming request at /search " + request.method)
     if request.method == 'POST':
         from .appActions import searchLDAP
+        querryResults = searchLDAP.searchQuerryFull(request)
+            
+        names = searchLDAP.getBaseName()  # Get DN Base names if possible
+        BaseOne, BaseTwo = "", ""
+        if not (names == False):
+            BaseOne = ": " + names[0]
+            BaseTwo = ": " + names[1]
+        
+        print("Full querry results: ")
+        print(querryResults)
+        if querryResults[0] == False:    # Search failed
+            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, blueMessage = querryResults[1], searchResults = "ERROR - Unable to complete search")
+        if querryResults[0] == True:
+            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = querryResults[1])
+
         
 
 @app.errorhandler(404)
