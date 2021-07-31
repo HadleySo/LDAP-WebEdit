@@ -8,7 +8,9 @@ def main(request):
             cfg = configparser.ConfigParser()
 
             # modify config
-            cfg['LDAP'] = {'ip_address' : request.form['ipAdd']}
+            cfg['LDAP'] = {'ip_address' : request.form['ipAdd'],
+                'SearchBaseOne' : request.form['SearchBaseOne'],
+                'SearchBaseTwo' : request.form['SearchBaseTwo']}
             cfg['CREDENTIALS'] = {'DN' : request.form['DN'],
                 'PW' : request.form['PW']}  
 
