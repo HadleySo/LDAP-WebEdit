@@ -12,7 +12,15 @@ def index(name=None):
             return render_template('config.html')
         if request.form.get('SearchEntry'):
             print("INFO: POST request to Search Entries")
-            return render_template('search.html')
+
+            from .appActions import searchLDAP              # Get DN Base names if possible
+            names = searchLDAP.getBaseName()
+            BaseOne, BaseTwo = "", ""
+            if not (names == False):
+                BaseOne = ": " + names[0]
+                BaseTwo = ": " + names[1]
+        
+            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo)
 
         if request.form.get('cancelConfigEdit'):
             print("INFO: POST request to go cancel config edit")
@@ -33,6 +41,13 @@ def config(name=None):
             return render_template('index.html', blueMessage = "ERROR in creating config")
         if (configResult == True):
             return render_template('index.html', blueMessage = "Success in creating config")
+
+@app.route('/search',methods = ['POST', 'GET'])
+def search(name=None):
+    print("INFO: Incoming request at /search " + request.method)
+    if request.method == 'POST':
+        from .appActions import searchLDAP
+        
 
 @app.errorhandler(404)
 def page_not_found(error):
