@@ -1,0 +1,51 @@
+:root {
+    --color-yellow: rgb(253, 157, 58);
+    --color-blue: rgb(35, 213, 222);
+    --color-white: rgb(241, 240, 240);
+    --color-gray: rgb(141, 141, 141);
+}
+
+body {
+    background-color: black;
+    
+    margin: 0;
+    padding: 0;
+
+    font-family: 'ave';
+}
+
+.yellowButton, .blueButton {
+    color: var(--color-yellow);
+    border-style: solid;
+    border-color: var(--color-gray);
+    border-radius: 4px;
+    border-width: 1px;
+    background: transparent;
+
+    text-align: center;
+    font-family: 'ave';
+    font-size: 2vmax;
+    
+    padding: 3px;
+    margin: 4px;
+    width: 15vmax;
+}
+.blueButton {
+    color: var(--color-blue);
+}
+
+#footer {
+    color: var(--color-white);
+    position: absolute;
+    bottom: 0;
+    display: inline;
+}
+#footer p {
+    font-family: 'ave';
+    color: var(--color-gray);
+
+    margin: 0;
+    padding-left: 10px;
+    padding-top: 1vmin;
+    font-size: 4vmin;
+}

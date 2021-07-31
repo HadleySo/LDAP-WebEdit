@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Start
+{% endblock %}
+
+{% block bodyContent %}
+<div id="grid-top">
+    <p id="title">Directory Editor</p>
+</div>
+
+<div id="grid-left">
+    <form method="POST" action="/">
+        <button class="yellowButton" value="SearchEntry" name="SearchEntry">Search</button>
+    </form>
+    <p>{{ blueMessage }}</p>
+</div>
+
+<div id="grid-right">
+    <form method="POST" action="/">
+        <button class="yellowButton" value="EditEntry" name="EditEntry">Edit</button>
+        <button class="yellowButton" value="MainConfig" name="MainConfig">Config</button>
+    </form>
+
+    <p>
+        Copyright 2021. <br>
+
+    </p>
+</div>
+{% endblock %}
