@@ -66,3 +66,12 @@ def bind(conn):
         print("[ERROR] Unable to BIND to LDAP server")
         print(str(e))
         return "[ERROR] Unable to BIND to LDAP server" + (str(e))
+
+def bind(conn):
+    try:
+        conn.unbind()
+        return None
+    except Exception as e:
+        print("[ERROR] Unable to UNBIND")
+        print(str(e))
+        return "[ERROR] Unable to UNBIND " + (str(e))
