@@ -2,7 +2,7 @@ import configparser
 import os
 import ldap
 
-configPathFull = os.path.normpath((__file__) + "../../data/config.txt")
+configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
 
 # Create base connection to LDAP server.
 # Not authenticated yet
@@ -55,13 +55,8 @@ def bind(conn):
         return "[ERROR] Your username or password is incorrect"
     except ldap.LDAPError as e:
         print("[ERROR] Unable to BIND to LDAP server")
-
-        print (e.message['info'])   
-        if type(e.message) == dict and e.message.has_key('desc'):
-            print (e.message['desc'])   
-        else:
-            print (e)
-        return "[ERROR] Unable to BIND to LDAP server" + (str((e.message['info'])))
+        print (str(e))
+        return "[ERROR] Unable to BIND to LDAP server" + (str(e))
     except Exception as e:
         print("[ERROR] Unable to BIND to LDAP server")
         print(str(e))
