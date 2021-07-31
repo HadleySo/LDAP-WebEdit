@@ -12,8 +12,9 @@ def connect():
         cfg = configparser.ConfigParser()
         cfg.read(configPathFull)
         ipAdd = cfg.get('LDAP','ip_address').strip()
-    except:
+    except Exception as e:
         print("[ERROR] Unable to open config file to get ip address")
+        print(str(e))
         return None
 
     # Connect to LDAP server
@@ -32,6 +33,7 @@ def connect():
 
 # After conenction to LDAP server.
 # Authenticates with DN and PW
+# Return Nothing if ok. Otherwise return error message
 def bind(conn):
     # Get LDAP server address from config file
     try:
@@ -39,14 +41,18 @@ def bind(conn):
         cfg.read(configPathFull)
         DN = cfg.get('CREDENTIALS','DN').strip()
         PW = cfg.get('CREDENTIALS','PW')
-    except:
+    except Exception as e:
         print("[ERROR] Unable to open config file to get DN and PW")
-        return None
+        print(str(e))
+        return "[ERROR] Unable to open config file to get DN and PW"
 
     # Bind with DN and Password
     try:
         conn.bind(DN, PW, ldap.AUTH_SIMPLE)
-        return True
+        return None
+    except ldap.INVALID_CREDENTIALS:
+        print ("Your username or password is incorrect.")
+        return "[ERROR] Your username or password is incorrect"
     except ldap.LDAPError as e:
         print("[ERROR] Unable to BIND to LDAP server")
 
@@ -55,4 +61,8 @@ def bind(conn):
             print (e.message['desc'])   
         else:
             print (e)
-        return None
+        return "[ERROR] Unable to BIND to LDAP server" + (str((e.message['info'])))
+    except Exception as e:
+        print("[ERROR] Unable to BIND to LDAP server")
+        print(str(e))
+        return "[ERROR] Unable to BIND to LDAP server" + (str(e))
