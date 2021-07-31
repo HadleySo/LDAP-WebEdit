@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Start
+Config
 {% endblock %}
 
 {% block CSS %}
@@ -14,7 +14,7 @@ Start
 </div>
 
 <div id="grid-left">
-    <form method="POST" action="/">
+    <form method="POST" action="/editConfig">
         <label for="fname">LDAP IP Address</label><br>
         <input type="text" id="yellowField" name="ipAdd" required><br><br>
         <label for="lname">DN</label><br>
