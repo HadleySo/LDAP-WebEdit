@@ -1,0 +1,30 @@
+#title {
+    color: var(--color-white);
+    font-size: 2vmax;
+
+    margin: 0;
+}
+
+#grid-left {
+    color: var(--color-white);
+}
+#grid-right {
+    color: var(--color-white);
+}
+
+#blueText {
+    color: var(--color-blue);
+}
+#grayText {
+    color: var(--color-gray);
+}
+
+#yellowField {
+    background-color: var(--color-yellow);
+    margin-bottom: 5px;;
+}
+#subButton {
+    background-color: var(--color-drkgray);
+    color: var(--color-white);
+    border-radius: 0;
+}

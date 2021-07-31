@@ -3,7 +3,64 @@
     --color-blue: rgb(35, 213, 222);
     --color-white: rgb(241, 240, 240);
     --color-gray: rgb(141, 141, 141);
+    --color-drkgray: rgb(64, 64, 64);
 }
+
+#home-wrap {
+    margin: 10vmin;
+    margin-top: 15vmin;
+    margin-bottom: 15vmin;
+
+    height: 60vh;
+    outline: var(--color-white) solid 1px;
+}
+#wrap-pad {
+    padding: 7vmin;
+
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: minmax(30vw, 60vw) minmax(40vw, 60vw) ;
+}
+
+.yellowButton, .blueButton {
+    color: var(--color-yellow);
+    border-style: solid;
+    border-color: var(--color-gray);
+    border-radius: 4px;
+    border-width: 1px;
+    background: transparent;
+
+    text-align: center;
+    font-family: 'ave';
+    font-size: 2vmax;
+    
+    padding: 3px;
+    margin: 4px;
+    width: 15vmax;
+}
+.blueButton {
+    color: var(--color-blue);
+}
+
+/* GRID */
+
+#grid-top {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+#grid-left {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+#grid-right {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;}
 
 body {
     background-color: black;
