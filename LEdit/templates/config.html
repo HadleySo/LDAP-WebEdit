@@ -23,10 +23,14 @@ Config
         <input type="text" id="yellowField" name="PW" required><br><br>
         <br>
         <br>
-        <label>Search Base One</label><br>
+        <label>Search Base One (DN)</label><br>
         <input type="text" id="yellowField" name="SearchBaseOne"><br><br>
-        <label>Search Base Two</label><br>
+        <label>Search Base One (Name)</label><br>
+        <input type="text" id="yellowField" name="SearchBaseOne_Name"><br><br>
+        <label>Search Base Two (DN)</label><br>
         <input type="text" id="yellowField" name="SearchBaseTwo"><br><br>
+        <label>Search Base Two (Name)</label><br>
+        <input type="text" id="yellowField" name="SearchBaseTwo_Name"><br><br>
         <br>
         <br>
         <input type="submit" id="subButton" name="submitForm" value="Confirm">
@@ -41,9 +45,8 @@ Config
 
     <p>{{ blueMessage }}</p>
 
-    <p>
+    <p id="grayText">
         Copyright 2021. <br>
-
     </p>
 </div>
 {% endblock %}
