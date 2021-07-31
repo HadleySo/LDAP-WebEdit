@@ -42,10 +42,9 @@ def searchQuerryFull(request):
     cfg = configparser.ConfigParser()
     cfg.read(configPathFull)
     
-    dn = ""
-    attr_name = ""
-    attr_val = request.form['searchString']
-    searchFilter = '(objectclass=person)'
+    dn = ""                                                         # The DN search base
+    attr_name = ['cn', 'sn', 'telephoneNumber', 'description']      # What attributes to show in results
+    searchStr = request.form['searchString']
 
     # Set attributes based on form
     if request.form['searchBase'] == 'baseOne':
@@ -54,18 +53,22 @@ def searchQuerryFull(request):
         dn = cfg.get('LDAP','searchbasetwo').strip()
 
     if request.form['searchField'] == 'notes':
-        attr_name = ['description']
+        searchFilter = "(&(objectclass=person)(description=" + searchStr + "))"
     elif request.form['searchField'] == 'pNum':
-        attr_name = ['telephoneNumber']
+        searchFilter = "(&(objectclass=person)(telephoneNumber=" + searchStr + "))"
     elif request.form['searchField'] == 'lName':
-        attr_name = ['sn']
+        searchFilter = "(&(objectclass=person)(sn=" + searchStr + "))"
     elif request.form['searchField'] == 'fName':
-        attr_name = ['cn']
-
+        searchFilter = "(&(objectclass=person)(cn=" + searchStr + "))"
+    
+    print(searchFilter)
+    
     # Execute search
     try:
         import ldap
         successResults = conn.search_s( dn, ldap.SCOPE_SUBTREE, searchFilter, attr_name )
+        if len(successResults) == 0:
+            successResults = "Your querry had no matches"
         querryResult = [True, successResults]
         connections.disconnect(conn)
         return querryResult
