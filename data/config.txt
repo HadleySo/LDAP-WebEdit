@@ -1,0 +1,11 @@
+[LDAP]
+ip_address = example.com
+searchbaseone = dc=example,dc=com
+searchbasetwo = dc=example,dc=com
+searchbaseone-name = PhoneBook Two
+searchbasetwo-name = PhoneBook Two
+
+[CREDENTIALS]
+dn = dc=example,dc=com
+pw = passwordishere
+
