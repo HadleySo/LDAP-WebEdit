@@ -9,6 +9,9 @@ def index(name=None):
         if request.form.get('MainConfig'):
             print("INFO: POST request to Edit Config")
             return render_template('config.html')
+        if request.form.get('cancelConfigEdit'):
+            print("INFO: POST request to go cancel config edit")
+            return render_template('index.html', blueMessage = "Config edit canceled")
     
     return render_template('index.html')    
 

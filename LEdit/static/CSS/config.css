@@ -1,6 +1,6 @@
 #title {
     color: var(--color-white);
-    font-size: 2vmax;
+    font-size: 3vmax;
 
     margin: 0;
 }
@@ -21,10 +21,11 @@
 
 #yellowField {
     background-color: var(--color-yellow);
-    margin-bottom: 5px;;
+    margin-bottom: 5px;
 }
 #subButton {
     background-color: var(--color-drkgray);
     color: var(--color-white);
     border-radius: 0;
+    font-size: 1vmax;
 }
