@@ -20,7 +20,7 @@ def index(name=None):
                 BaseOne = ": " + names[0]
                 BaseTwo = ": " + names[1]
         
-            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo)
+            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchTable = None)
 
         if request.form.get('cancelConfigEdit'):
             print("INFO: POST request to go cancel config edit")
