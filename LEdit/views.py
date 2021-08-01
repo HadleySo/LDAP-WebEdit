@@ -95,7 +95,7 @@ def search(name=None):
 
             if tableResults[0] == True:
                 return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1])
-            elif tableResults[0] == False:
+            elif tableResults[0] == False:      # Search worked, but issue with result cleaner
                 return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None)        
 
 @app.route('/add',methods = ['POST', 'GET'])
@@ -115,6 +115,45 @@ def add(name=None):
             return render_template('add.html', blueMessage = "ERROR in adding LDAP entry", addResults = addResult[1], baseOneName = BaseOne, baseTwoName = BaseTwo)
         if (addResult[0] == True):
             return render_template('add.html', blueMessage = "Success!", addResults = addResult[1])
+
+@app.route('/deleteSearch',methods = ['POST', 'GET'])
+def deleteSearch(name=None):
+    print("INFO: Incoming request at /deleteSearch " + request.method)
+    if request.method == 'POST':
+        from .appActions import searchLDAP, deleteLDAP
+        querryResults = searchLDAP.searchQuerryFull(request)
+            
+        names = searchLDAP.getBaseName()  # Get DN Base names if possible
+        BaseOne, BaseTwo = "", ""
+        if not (names == False):
+            BaseOne = ": " + names[0]
+            BaseTwo = ": " + names[1]
+        
+        print("Full querry results: ")
+        print(querryResults)
+
+        if querryResults[0] == False:    # Search failed
+            return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, blueMessage = querryResults[1], searchResults = "ERROR - Unable to complete search")
+        if querryResults[0] == True:
+            tableResults = searchLDAP.resultCleaner(querryResults[2])
+            fullDNlist = deleteLDAP.resultDNSorter(querryResults[2])
+
+            print("Table Results:")
+            print(tableResults)
+            print("Full DN List")
+            print(fullDNlist)
+
+            if tableResults[0] == True:
+                return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1], DNlist = fullDNlist)
+            elif tableResults[0] == False:      # Search worked, but issue with result cleaner
+                return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None)  
+        
+@app.route('/deleteEntry',methods = ['POST', 'GET'])
+def deleteEntry(name=None):
+    print("INFO: Incoming request at /deleteEntry " + request.method)
+    print(request.form)
+    
+
 
 @app.errorhandler(404)
 def page_not_found(error):

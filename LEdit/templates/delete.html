@@ -14,7 +14,7 @@ Delete
 </div>
 
 <div id="grid-left">
-    <form method="POST" action="/delete">
+    <form method="POST" action="/deleteSearch">
         <label>Search Field:</label><br>
         <input type="radio" id="" name="searchField" value="lName">
         <label>Last Name</label><br>
@@ -54,13 +54,22 @@ Delete
     {% if searchTable != None %}
     <table id="whiteTable">
         <tr>
+            <th>Delete</th>
             <th>First Name (cn)</th>
             <th>Last Name (sn)</th>
             <th>Phone Number</th>
             <th>Description</th>
         </tr>
+        {% set count = [] %}
         {% for entry in searchTable %}
             <tr>
+                <td>
+                    <form method="POST" action="/deleteEntry">
+                        {% set nCounter = count|length %}
+                        <button class="delButton" value="{{ DNlist[1][nCounter] }}" name="deleteEntry">DEL</button>
+                    </form>
+                    {% set __ = count.append(1) %}
+                </td>
                 {% for value in entry %}
                     <td class="col-md-2">{{ entry[value] }}</td>
                 {% endfor %}
