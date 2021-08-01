@@ -12,15 +12,15 @@ def getName():
     except Exception as e:
         print("[WARNING] Failed to read config file")
         print(str(e))
-        return None
+        return "DirectoryEdit"
     
     # Try to read sections
     try:
         localName = cfg.get('LDAP','localdisplayname')
         if len(localName) < 1:
-            return None
+            return "DirectoryEdit"
         return localName
     except Exception as e:
         print("[WARNING] Failed to read custom display name")
         print(str(e))
-        return None
+        return "DirectoryEdit"
