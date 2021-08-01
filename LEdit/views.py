@@ -73,7 +73,9 @@ def index(name=None):
             print("INFO: POST request to go cancel delete")
             return render_template('index.html', blueMessage = "LDAP delete canceled", localName = localName)
     
-    return render_template('index.html')    
+    from .appActions import customLocale
+    localName = customLocale.getName()
+    return render_template('index.html', localName = localName)    
 
 @app.route('/editConfig',methods = ['POST', 'GET'])
 def config(name=None):
