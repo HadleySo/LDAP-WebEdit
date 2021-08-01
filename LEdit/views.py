@@ -90,9 +90,16 @@ def add(name=None):
         from .appActions import addLDAP
         addResult = addLDAP.main(request)
         if (addResult[0] == False):
-            return render_template('add.html', blueMessage = "ERROR in adding LDAP entry", addResults = addResult[1])
+            from .appActions import searchLDAP              # Get DN Base names if possible
+            names = searchLDAP.getBaseName()
+            BaseOne, BaseTwo = "", ""
+            if not (names == False):
+                BaseOne = ": " + names[0]
+                BaseTwo = ": " + names[1]
+
+            return render_template('add.html', blueMessage = "ERROR in adding LDAP entry", addResults = addResult[1], baseOneName = BaseOne, baseTwoName = BaseTwo)
         if (addResult[0] == True):
-            return render_template('add.html', addResults = addResult[1])
+            return render_template('add.html', blueMessage = "Success!", addResults = addResult[1])
 
 @app.errorhandler(404)
 def page_not_found(error):
