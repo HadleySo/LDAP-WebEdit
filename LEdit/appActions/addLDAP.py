@@ -48,6 +48,7 @@ def main(request):
         connections.disconnect(conn)
         return addResult
     
+    # Create LDAP record Tuple
     dn = "cn=" + fName + "," + dn
     recordTup = (
         ('cn', bytes(fName, 'utf-8')),
@@ -60,7 +61,6 @@ def main(request):
     print("The created recordTup:")
     print(recordTup)
     print("The requested DN:")
-    print(str(type(dn)))
     print(dn)
 
     # Send to LDAP server
