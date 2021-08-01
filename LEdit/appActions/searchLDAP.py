@@ -16,21 +16,6 @@ def getBaseName():
         print("[WARNING] Failed to read names from config file")
         print(str(e))
         return False
-
-def editRequesetFull(request):
-    from . import connections
-
-    # Connect and Bind to LDAP server
-    conn = connections.connect()
-    if conn == None:
-        print("[ERROR] Search failed due to failed connection")
-        querryResult = [False, "[ERROR] Search failed due to failed connection"]
-        return querryResult
-    bindResult = connections.bind(conn)
-    if not (bindResult == None):
-        connections.disconnect(conn)
-        querryResult = [False, bindResult]
-        return querryResult
         
 def searchQuerryFull(request):
     from . import connections
