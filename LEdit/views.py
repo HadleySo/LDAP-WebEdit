@@ -33,6 +33,18 @@ def index(name=None):
                 BaseTwo = ": " + names[1]
         
             return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchTable = None)
+        
+        if request.form.get('DelEntry'):
+            print("INFO: POST request to Delete Entries")
+
+            from .appActions import searchLDAP              # Get DN Base names if possible
+            names = searchLDAP.getBaseName()
+            BaseOne, BaseTwo = "", ""
+            if not (names == False):
+                BaseOne = ": " + names[0]
+                BaseTwo = ": " + names[1]
+        
+            return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchTable = None)
 
         if request.form.get('cancelConfigEdit'):
             print("INFO: POST request to go cancel config edit")
@@ -43,6 +55,9 @@ def index(name=None):
         if request.form.get('cancelAdd'):
             print("INFO: POST request to go cancel add")
             return render_template('index.html', blueMessage = "LDAP add canceled")
+        if request.form.get('cancelDelete'):
+            print("INFO: POST request to go cancel delete")
+            return render_template('index.html', blueMessage = "LDAP delete canceled")
     
     return render_template('index.html')    
 
