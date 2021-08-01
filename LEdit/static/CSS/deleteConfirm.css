@@ -1,0 +1,18 @@
+#title {
+    color: var(--color-white);
+    font-size: 4vmax;
+
+    margin: 0;
+}
+
+#grid-left {
+    color: var(--color-blue);
+    font-size: 1.5vmax;
+}
+#grid-left p {
+    padding-right: 50px;
+}
+
+#grid-right {
+    color: var(--color-gray);
+}

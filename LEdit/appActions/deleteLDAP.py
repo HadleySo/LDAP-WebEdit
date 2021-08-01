@@ -10,15 +10,24 @@ def deleteRequesetFull(request):
     conn = connections.connect()
     if conn == None:
         print("[ERROR] Search failed due to failed connection")
-        editResult = [False, "[ERROR] Search failed due to failed connection"]
-        return editResult
+        deleteResult = [False, "[ERROR] Search failed due to failed connection"]
+        return deleteResult
     bindResult = connections.bind(conn)
     if not (bindResult == None):
         connections.disconnect(conn)
-        editResult = [False, bindResult]
-        return editResult
+        deleteResult = [False, bindResult]
+        return deleteResult
     
-    connections.disconnect(conn)
+    # Send delete request to LDAP server
+    try:
+        conn.delete_s(str(request))
+        connections.disconnect(conn)
+        deleteResult = [True, request]
+        return deleteResult
+    except Exception as e:
+        print("[ERROR] Unable to delete LDAP entry. " + str(e))
+        deleteResult = [False, "[ERROR] Unable to delete LDAP entry. " + str(e)]
+        return deleteResult
 
 def resultDNSorter(results):
     print("INFO: Getting full DN from LDAP search results")

@@ -152,7 +152,23 @@ def deleteSearch(name=None):
 def deleteEntry(name=None):
     print("INFO: Incoming request at /deleteEntry " + request.method)
     print(request.form)
-    
+
+    if request.method == 'POST':
+        return render_template('deleteConfirm.html', entryInfo = request.form['deleteEntry'])
+
+@app.route('/deleteEntryConfirmed',methods = ['POST', 'GET'])
+def deleteEntryConfirmed(name=None):
+    print("INFO: Incoming request at /deleteEntry " + request.method)
+    print(request.form)
+
+    if request.method == 'POST':
+        from .appActions import deleteLDAP
+        deleteResult = deleteLDAP.deleteRequesetFull(request.form['deleteConfirmed'])
+
+        if deleteResult[0] == False:
+            return render_template('delete.html', blueMessage = deleteResult[1])
+        elif deleteResult[0] == True:
+            return render_template('index.html', blueMessage = "Successfuly deleted:   " + request.form['deleteConfirmed'])
 
 
 @app.errorhandler(404)
