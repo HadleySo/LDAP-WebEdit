@@ -15,6 +15,10 @@ Config
 
 <div id="grid-left">
     <form method="POST" action="/editConfig">
+        <label>Display Name</label><br>
+        <input type="text" id="yellowField" name="LocalDisplayName"><br><br>
+        <br>
+        <br>
         <label>LDAP IP Address</label><br>
         <input type="text" id="yellowField" name="ipAdd" required><br><br>
         <label>DN</label><br>
@@ -42,6 +46,20 @@ Config
     <form method="POST" action="/">
         <button class="yellowButton" value="cancelConfigEdit" name="cancelConfigEdit">Cancel</button>
     </form>
+
+    {% if currentConfig != None %}
+    <br>
+    <table>
+        <tr>
+            <td>CURRENT CONFIG:</td>
+        </tr>
+        {% for result in currentConfig %}
+        <tr>
+            <td>{{ result }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
 
     <p>{{ blueMessage }}</p>
 

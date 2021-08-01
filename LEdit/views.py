@@ -9,7 +9,12 @@ def index(name=None):
         # Request to create config or request to abort config creation
         if request.form.get('MainConfig'):
             print("INFO: POST request to Edit Config")
-            return render_template('config.html')
+
+            from .appActions import createConfig
+            currentConfig = createConfig.getConfig()
+
+            return render_template('config.html', currentConfig = currentConfig)
+            
         if request.form.get('AddEntry'):
             print("INFO: POST request to Add Entries")
 
