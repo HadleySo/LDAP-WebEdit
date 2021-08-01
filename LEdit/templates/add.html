@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add
+{% endblock %}
+
+{% block CSS %}
+<link rel="stylesheet" href="static/CSS/add.css">
+{% endblock %}
+
+{% block bodyContent %}
+<div id="grid-top">
+    <p id="title">Add LDAP</p>
+</div>
+
+<div id="grid-left">
+    <form method="POST" action="/add">
+        <label>Last Name</label><br>
+        <input type="text" id="yellowField" name="lName" required><br><br>
+        <label>First Name</label><br>
+        <input type="text" id="yellowField" name="fName" required><br><br>
+        <label>Phone Number</label><br>
+        <input type="text" id="yellowField" name="pNum" required><br><br>
+        <label>Notes</label><br>
+        <input type="text" id="yellowField" name="notes" required><br><br>
+        <br>
+        <br>
+        <label>Add Base:</label><br>
+        <input type="radio" id="" name="addBase" value="baseOne">
+        <label>Base One    {{ baseOneName }}</label><br>
+        <input type="radio" id="" name="addBase" value="baseTwo">
+        <label>Base Two    {{ baseTwoName }}</label><br>
+ 
+        <br>
+        <br>
+        <input type="submit" id="subButton" name="submitForm" value="Add">
+    </form>
+
+</div>
+
+<div id="grid-right">
+    <form method="POST" action="/">
+        <button class="yellowButton" value="cancelAdd" name="cancelAdd">Cancel</button>
+    </form>
+
+    <p id="blueText">{{ blueMessage }}</p>
+
+    <p id="whiteText">{{ addResults }}</p>
+
+    <p id="grayText">
+        Copyright 2021. <br>
+    </p>
+</div>
+{% endblock %}

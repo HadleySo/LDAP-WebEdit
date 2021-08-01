@@ -10,6 +10,18 @@ def index(name=None):
         if request.form.get('MainConfig'):
             print("INFO: POST request to Edit Config")
             return render_template('config.html')
+        if request.form.get('AddEntry'):
+            print("INFO: POST request to Add Entries")
+
+            from .appActions import searchLDAP              # Get DN Base names if possible
+            names = searchLDAP.getBaseName()
+            BaseOne, BaseTwo = "", ""
+            if not (names == False):
+                BaseOne = ": " + names[0]
+                BaseTwo = ": " + names[1]
+        
+            return render_template('add.html', baseOneName = BaseOne, baseTwoName = BaseTwo)
+            
         if request.form.get('SearchEntry'):
             print("INFO: POST request to Search Entries")
 
@@ -28,6 +40,9 @@ def index(name=None):
         if request.form.get('cancelSearch'):
             print("INFO: POST request to go cancel search")
             return render_template('index.html', blueMessage = "LDAP search canceled")
+        if request.form.get('cancelAdd'):
+            print("INFO: POST request to go cancel add")
+            return render_template('index.html', blueMessage = "LDAP add canceled")
     
     return render_template('index.html')    
 
