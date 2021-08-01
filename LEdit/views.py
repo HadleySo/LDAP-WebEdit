@@ -21,7 +21,7 @@ def index(name=None):
                 BaseTwo = ": " + names[1]
         
             return render_template('add.html', baseOneName = BaseOne, baseTwoName = BaseTwo)
-            
+
         if request.form.get('SearchEntry'):
             print("INFO: POST request to Search Entries")
 
@@ -82,6 +82,17 @@ def search(name=None):
                 return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1])
             elif tableResults[0] == False:
                 return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None)        
+
+@app.route('/add',methods = ['POST', 'GET'])
+def add(name=None):
+    print("INFO: Incoming request at /add " + request.method)
+    if request.method == 'POST':
+        from .appActions import addLDAP
+        addResult = addLDAP.main(request)
+        if (addResult[0] == False):
+            return render_template('add.html', blueMessage = "ERROR in adding LDAP entry", addResults = addResult[1])
+        if (addResult[0] == True):
+            return render_template('add.html', addResults = addResult[1])
 
 @app.errorhandler(404)
 def page_not_found(error):

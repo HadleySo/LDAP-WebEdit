@@ -5,17 +5,55 @@ configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
 
 def getBaseName():
     print("INFO: Trying to get SearchBase names")
+    names = []
     try:
         cfg = configparser.ConfigParser()
         cfg.read(configPathFull)
-        names = []
+    except Exception as e:
+        print("[ERROR] Failed to read config file")
+        print(str(e))
+        return False
+
+    try:
         names.append(cfg.get('LDAP','searchbaseone-name'))
+    except Exception as e:
+        names.append("")
+        print("[WARNING] Failed to read Base ONE Name from config file")
+        print(str(e))
+    try:
         names.append(cfg.get('LDAP','searchbasetwo-name'))
         return names
     except Exception as e:
-        print("[WARNING] Failed to read names from config file")
+        names.append("")
+        print("[WARNING] Failed to read Base TWO Name from config file")
+        print(str(e))
+    return names
+
+def getBaseDN():
+    print("INFO: Trying to get Base DN")
+    baseDN = []
+    try:
+        cfg = configparser.ConfigParser()
+        cfg.read(configPathFull)
+    except Exception as e:
+        print("[ERROR] Failed to read config file")
         print(str(e))
         return False
+
+    try:
+        baseDN.append(cfg.get('LDAP','searchbaseone'))
+    except Exception as e:
+        baseDN.append(False)
+        print("[WARNING] Failed to read Base DN ONE from config file")
+        print(str(e))
+    try:
+        baseDN.append(cfg.get('LDAP','searchbasetwo'))
+    except Exception as e:
+        baseDN.append(False)
+        print("[WARNING] Failed to read Base DN TWO from config file")
+        print(str(e))
+
+    return baseDN
         
 def searchQuerryFull(request):
     from . import connections
@@ -40,9 +78,14 @@ def searchQuerryFull(request):
 
     # Set attributes based on form
     if request.form['searchBase'] == 'baseOne':
-        dn = cfg.get('LDAP','searchbaseone').strip()
+        dn = getBaseDN()[0]
     elif request.form['searchBase'] == 'baseTwo':
-        dn = cfg.get('LDAP','searchbasetwo').strip()
+        dn = getBaseDN()[1]
+    if dn == False:                                                 # When the DN selected does not exist tell user
+        print("[ERROR] The Search Base DN you selected is not configured.")
+        querryResult = [False, "[ERROR] The Search Base DN you selected is not configured."]
+        connections.disconnect(conn)
+        return querryResult
 
     if request.form['searchField'] == 'notes':
         searchFilter = "(&(objectclass=person)(description=" + searchStr + "))"
