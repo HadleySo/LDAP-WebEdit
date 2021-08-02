@@ -3,11 +3,12 @@ import os
 
 configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
 
+
 def main(request):
     print("INFO: Beginning to add entry to LDAP server")
     print(request.form)
     from . import searchLDAP, connections
-    
+
     nameList = searchLDAP.getBaseName()
 
     # Connect and Bind to LDAP server
@@ -21,7 +22,7 @@ def main(request):
         connections.disconnect(conn)
         addResult = [False, bindResult]
         return addResult
-    
+
     # Get BaseDN from config file
     baseDN = searchLDAP.getBaseDN()
     if baseDN == False:
@@ -44,10 +45,11 @@ def main(request):
         dn = baseDN[1]
     if dn == False:                                                 # When the DN selected does not exist tell user
         print("[ERROR] The Base DN you selected is not configured.")
-        addResult = [False, "[ERROR] The Base DN you selected is not configured."]
+        addResult = [
+            False, "[ERROR] The Base DN you selected is not configured."]
         connections.disconnect(conn)
         return addResult
-    
+
     # Create LDAP record Tuple
     dn = "cn=" + fName + "," + dn
     recordTup = (
@@ -56,7 +58,7 @@ def main(request):
         ('sn', bytes(lName, 'utf-8')),
         ('description', bytes(notes, 'utf-8')),
         ('telephoneNumber', bytes(pNum, 'utf-8'))
-        )
+    )
 
     print("The created recordTup:")
     print(recordTup)
@@ -66,11 +68,13 @@ def main(request):
     # Send to LDAP server
     try:
         conn.add_s(dn, recordTup)
-        addResult = [True, lName + "\n" + fName + "\n" + pNum + "\n" + notes + "\n"+ dn]
+        addResult = [True, lName + "\n" + fName +
+                     "\n" + pNum + "\n" + notes + "\n" + dn]
         connections.disconnect(conn)
         return addResult
     except Exception as e:
         print("[ERROR] Unable to add entry after creating recordTupple " + str(e))
-        addResult = [False, "[ERROR] Unable to add entry after creating recordTupple. " + str(e)]
+        addResult = [
+            False, "[ERROR] Unable to add entry after creating recordTupple. " + str(e)]
         connections.disconnect(conn)
         return addResult
