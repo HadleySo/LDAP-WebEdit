@@ -74,7 +74,7 @@ def searchQuerryFull(request):
     
     dn = ""                                                         # The DN search base
     attr_name = ['cn', 'sn', 'telephoneNumber', 'description']      # What attributes to show in results
-    searchStr = request.form['searchString']
+    searchStr = "*" + request.form['searchString'] + "*"
 
     # Set attributes based on form
     if request.form['searchBase'] == 'baseOne':
