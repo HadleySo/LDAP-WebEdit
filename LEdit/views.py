@@ -115,7 +115,7 @@ def search(name=None):
             if tableResults[0] == True:
                 return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1], localOptions = localOptions)
             elif tableResults[0] == False:      # Search worked, but issue with result cleaner
-                return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None)        
+                return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None, localOptions = localOptions)        
 
 @app.route('/add',methods = ['POST', 'GET'])
 def add(name=None):
