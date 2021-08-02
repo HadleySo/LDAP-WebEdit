@@ -12,13 +12,20 @@ Config
 
 {% block bodyContent %}
 <div id="grid-top">
-    <p id="title">Edit Config</p>
+    <p id="title">Edit 
+        {% block localNameHeader %}
+            {{ localOptions['name'] }}
+        {% endblock %}
+        Config
+    </p>
 </div>
 
 <div id="grid-left">
     <form method="POST" action="/editConfig">
         <label>Display Name</label><br>
         <input type="text" id="yellowField" name="LocalDisplayName"><br><br>
+        <label>Background Color</label><br>
+        <input type="color" id="yellowField" name="backColor" value="#000000"><br><br>
         <br>
         <br>
         <label>LDAP IP Address</label><br>

@@ -16,6 +16,7 @@ def main(request):
                 'LocalDisplayName' : request.form['LocalDisplayName']}
             cfg['CREDENTIALS'] = {'DN' : request.form['DN'],
                 'PW' : request.form['PW']}  
+            cfg['LOCAL'] = {'backgroundColor' : request.form['backColor']}
 
             with open(configPathFull, 'w') as saveConfig:
                 cfg.write(saveConfig)                           # save config

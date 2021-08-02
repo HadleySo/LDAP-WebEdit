@@ -21,3 +21,12 @@
         </div>
     </div>
 </body>
+
+<style>
+    body {
+        background-color: 
+        {% block localColor %}
+            {{ localOptions['color'] }}
+        {% endblock %};
+    }
+</style>

@@ -12,9 +12,9 @@ def index(name=None):
 
             from .appActions import createConfig, customLocale
             currentConfig = createConfig.getConfig()
-            localName = customLocale.getName()
+            localOptions = customLocale.getAll()
 
-            return render_template('config.html', currentConfig = currentConfig, localName = localName)
+            return render_template('config.html', currentConfig = currentConfig, localOptions = localOptions)
             
         if request.form.get('AddEntry'):
             print("INFO: POST request to Add Entries")
@@ -26,9 +26,9 @@ def index(name=None):
                 BaseOne = ": " + names[0]
                 BaseTwo = ": " + names[1]
         
-            localName = customLocale.getName()
+            localOptions = customLocale.getAll()
 
-            return render_template('add.html', baseOneName = BaseOne, baseTwoName = BaseTwo, localName = localName)
+            return render_template('add.html', baseOneName = BaseOne, baseTwoName = BaseTwo, localOptions = localOptions)
 
         if request.form.get('SearchEntry'):
             print("INFO: POST request to Search Entries")
@@ -40,9 +40,9 @@ def index(name=None):
                 BaseOne = ": " + names[0]
                 BaseTwo = ": " + names[1]
         
-            localName = customLocale.getName()
+            localOptions = customLocale.getAll()
 
-            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchTable = None, localName = localName)
+            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchTable = None, localOptions = localOptions)
         
         if request.form.get('DelEntry'):
             print("INFO: POST request to Delete Entries")
@@ -54,28 +54,28 @@ def index(name=None):
                 BaseOne = ": " + names[0]
                 BaseTwo = ": " + names[1]
         
-            localName = customLocale.getName()
+            localOptions = customLocale.getAll()
 
-            return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchTable = None, localName = localName)
+            return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchTable = None, localOptions = localOptions)
 
         from .appActions import customLocale
-        localName = customLocale.getName()
+        localOptions = customLocale.getAll()
         if request.form.get('cancelConfigEdit'):
             print("INFO: POST request to go cancel config edit")
-            return render_template('index.html', blueMessage = "Config edit canceled", localName = localName)
+            return render_template('index.html', blueMessage = "Config edit canceled", localOptions = localOptions)
         if request.form.get('cancelSearch'):
             print("INFO: POST request to go cancel search")
-            return render_template('index.html', blueMessage = "LDAP search canceled", localName = localName)
+            return render_template('index.html', blueMessage = "LDAP search canceled", localOptions = localOptions)
         if request.form.get('cancelAdd'):
             print("INFO: POST request to go cancel add")
-            return render_template('index.html', blueMessage = "LDAP add canceled", localName = localName)
+            return render_template('index.html', blueMessage = "LDAP add canceled", localOptions = localOptions)
         if request.form.get('cancelDelete'):
             print("INFO: POST request to go cancel delete")
-            return render_template('index.html', blueMessage = "LDAP delete canceled", localName = localName)
+            return render_template('index.html', blueMessage = "LDAP delete canceled", localOptions = localOptions)
     
     from .appActions import customLocale
-    localName = customLocale.getName()
-    return render_template('index.html', localName = localName)    
+    localOptions = customLocale.getAll()
+    return render_template('index.html', localOptions = localOptions)    
 
 @app.route('/editConfig',methods = ['POST', 'GET'])
 def config(name=None):
@@ -83,11 +83,11 @@ def config(name=None):
     if request.method == 'POST':
         from .appActions import createConfig, customLocale
         configResult = createConfig.main(request)
-        localName = customLocale.getName()
+        localOptions = customLocale.getAll()
         if (configResult == False):
-            return render_template('index.html', blueMessage = "ERROR in creating config", localName = localName)
+            return render_template('index.html', blueMessage = "ERROR in creating config", localOptions = localOptions)
         if (configResult == True):
-            return render_template('index.html', blueMessage = "Success in creating config", localName = localName)
+            return render_template('index.html', blueMessage = "Success in creating config", localOptions = localOptions)
 
 @app.route('/search',methods = ['POST', 'GET'])
 def search(name=None):
@@ -95,7 +95,7 @@ def search(name=None):
     if request.method == 'POST':
         from .appActions import searchLDAP, customLocale
         querryResults = searchLDAP.searchQuerryFull(request)
-        localName = customLocale.getName()
+        localOptions = customLocale.getAll()
 
         names = searchLDAP.getBaseName()  # Get DN Base names if possible
         BaseOne, BaseTwo = "", ""
@@ -106,13 +106,13 @@ def search(name=None):
         print("Full querry results: ")
         print(querryResults)
         if querryResults[0] == False:    # Search failed
-            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, blueMessage = querryResults[1], searchResults = "ERROR - Unable to complete search", localName = localName)
+            return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, blueMessage = querryResults[1], searchResults = "ERROR - Unable to complete search", localOptions = localOptions)
         if querryResults[0] == True:
             tableResults = searchLDAP.resultCleaner(querryResults[2])
             print(tableResults)
 
             if tableResults[0] == True:
-                return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1], localName = localName)
+                return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1], localOptions = localOptions)
             elif tableResults[0] == False:      # Search worked, but issue with result cleaner
                 return render_template('search.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None)        
 
@@ -122,7 +122,7 @@ def add(name=None):
     if request.method == 'POST':
         from .appActions import addLDAP, customLocale
         addResult = addLDAP.main(request)
-        localName = customLocale.getName()
+        localOptions = customLocale.getAll()
         if (addResult[0] == False):
             from .appActions import searchLDAP              # Get DN Base names if possible
             names = searchLDAP.getBaseName()
@@ -131,9 +131,9 @@ def add(name=None):
                 BaseOne = ": " + names[0]
                 BaseTwo = ": " + names[1]
 
-            return render_template('add.html', blueMessage = "ERROR in adding LDAP entry", addResults = addResult[1], baseOneName = BaseOne, baseTwoName = BaseTwo, localName = localName)
+            return render_template('add.html', blueMessage = "ERROR in adding LDAP entry", addResults = addResult[1], baseOneName = BaseOne, baseTwoName = BaseTwo, localOptions = localOptions)
         if (addResult[0] == True):
-            return render_template('add.html', blueMessage = "Success!", addResults = addResult[1], localName = localName)
+            return render_template('add.html', blueMessage = "Success!", addResults = addResult[1], localOptions = localOptions)
 
 @app.route('/deleteSearch',methods = ['POST', 'GET'])
 def deleteSearch(name=None):
@@ -141,7 +141,7 @@ def deleteSearch(name=None):
     if request.method == 'POST':
         from .appActions import searchLDAP, deleteLDAP, customLocale
         querryResults = searchLDAP.searchQuerryFull(request)
-        localName = customLocale.getName()
+        localOptions = customLocale.getAll()
             
         names = searchLDAP.getBaseName()  # Get DN Base names if possible
         BaseOne, BaseTwo = "", ""
@@ -153,7 +153,7 @@ def deleteSearch(name=None):
         print(querryResults)
 
         if querryResults[0] == False:    # Search failed
-            return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, blueMessage = querryResults[1], searchResults = "ERROR - Unable to complete search", localName = localName)
+            return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, blueMessage = querryResults[1], searchResults = "ERROR - Unable to complete search", localOptions = localOptions)
         if querryResults[0] == True:
             tableResults = searchLDAP.resultCleaner(querryResults[2])
             fullDNlist = deleteLDAP.resultDNSorter(querryResults[2])
@@ -164,9 +164,9 @@ def deleteSearch(name=None):
             print(fullDNlist)
 
             if tableResults[0] == True:
-                return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1], DNlist = fullDNlist, localName = localName)
+                return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = "Search successful", searchTable = tableResults[1], DNlist = fullDNlist, localOptions = localOptions)
             elif tableResults[0] == False:      # Search worked, but issue with result cleaner
-                return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None, localName = localName)  
+                return render_template('delete.html', baseOneName = BaseOne, baseTwoName = BaseTwo, searchResults = str(tableResults[1]), searchTable = None, localOptions = localOptions)  
         
 @app.route('/deleteEntry',methods = ['POST', 'GET'])
 def deleteEntry(name=None):
@@ -184,12 +184,12 @@ def deleteEntryConfirmed(name=None):
     if request.method == 'POST':
         from .appActions import deleteLDAP, customLocale
         deleteResult = deleteLDAP.deleteRequesetFull(request.form['deleteConfirmed'])
-        localName = customLocale.getName()
+        localOptions = customLocale.getAll()
 
         if deleteResult[0] == False:
-            return render_template('delete.html', blueMessage = deleteResult[1], localName = localName)
+            return render_template('delete.html', blueMessage = deleteResult[1], localOptions = localOptions)
         elif deleteResult[0] == True:
-            return render_template('index.html', blueMessage = "Successfuly deleted:   " + request.form['deleteConfirmed'], localName = localName)
+            return render_template('index.html', blueMessage = "Successfuly deleted:   " + request.form['deleteConfirmed'], localOptions = localOptions)
 
 
 @app.errorhandler(404)

@@ -12,7 +12,12 @@ Search
 
 {% block bodyContent %}
 <div id="grid-top">
-    <p id="title">Search LDAP</p>
+    <p id="title">Search 
+        {% block localNameHeader %}
+            {{ localOptions['name'] }}
+        {% endblock %}
+        LDAP
+    </p>
 </div>
 
 <div id="grid-left">

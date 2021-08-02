@@ -12,7 +12,12 @@ Delete
 
 {% block bodyContent %}
 <div id="grid-top">
-    <p id="title">Delete LDAP</p>
+    <p id="title">Delete 
+        {% block localNameHeader %}
+            {{ localOptions['name'] }}
+        {% endblock %}
+        LDAP Entry
+    </p>
 </div>
 
 <div id="grid-left">

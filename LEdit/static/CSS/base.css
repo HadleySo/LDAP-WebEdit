@@ -11,7 +11,8 @@
     margin-top: 15vmin;
     margin-bottom: 15vmin;
 
-    height: 60vh;
+    height: auto;
+    width: fit-content;
     outline: var(--color-white) solid 1px;
 }
 #wrap-pad {

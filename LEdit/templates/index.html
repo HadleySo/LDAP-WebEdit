@@ -14,7 +14,12 @@ Start
 
 {% block bodyContent %}
 <div id="grid-top">
-    <p id="title">LDAP Directory</p>
+    <p id="title">
+        {% block localNameHeader %}
+            {{ localOptions['name'] }}
+        {% endblock %}
+        LDAP Directory
+    </p>
 </div>
 
 <div id="grid-left">
