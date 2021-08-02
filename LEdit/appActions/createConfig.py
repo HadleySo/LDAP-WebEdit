@@ -28,7 +28,7 @@ def main(request):
             return False
 
 def getConfig():
-    print("INFO: Reading config sections")
+    print("INFO: Reading config sections. GetConfig as list")
     # Try to read config file
     try:
         cfg = configparser.ConfigParser()
@@ -55,3 +55,30 @@ def getConfig():
 
     print(outList)
     return outList
+
+def getConfigDict():
+    print("INFO: Reading config sections. GetConfig as dict")
+    # Try to read config file
+    try:
+        cfg = configparser.ConfigParser()
+        cfg.read(configPathFull)
+    except Exception as e:
+        print("[ERROR] Failed to read config file")
+        print(str(e))
+        return None
+    
+    # Try to read sections
+    try:
+        sections = cfg.sections()
+    except Exception as e:
+        print("[ERROR] Failed to read config sections")
+        print(str(e))
+        return None
+    
+    outDict = {}
+    for sect in sections:
+        for key in cfg[sect]: 
+            outDict[str(key)] = str(cfg[sect][key])
+
+    print(str(outDict))
+    return outDict

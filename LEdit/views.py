@@ -12,9 +12,10 @@ def index(name=None):
 
             from .appActions import createConfig, customLocale
             currentConfig = createConfig.getConfig()
+            currentConfigDict = createConfig.getConfigDict()
             localOptions = customLocale.getAll()
 
-            return render_template('config.html', currentConfig = currentConfig, localOptions = localOptions)
+            return render_template('config.html', currentConfig = currentConfig, currentConfigDict = currentConfigDict, localOptions = localOptions)
             
         if request.form.get('AddEntry'):
             print("INFO: POST request to Add Entries")

@@ -23,27 +23,27 @@ Config
 <div id="grid-left">
     <form method="POST" action="/editConfig">
         <label>Display Name</label><br>
-        <input type="text" id="yellowField" name="LocalDisplayName"><br><br>
+        <input type="text" id="yellowField" name="LocalDisplayName" value="{{ currentConfigDict['localdisplayname'] }}"><br><br>
         <label>Background Color</label><br>
-        <input type="color" id="yellowField" name="backColor" value="#000000"><br><br>
+        <input type="color" id="yellowField" name="backColor" value="{{ currentConfigDict['backgroundcolor'] }}"><br><br>
         <br>
         <br>
         <label>LDAP IP Address</label><br>
-        <input type="text" id="yellowField" name="ipAdd" required><br><br>
+        <input type="text" id="yellowField" name="ipAdd" value="{{ currentConfigDict['ip_address'] }}" required><br><br>
         <label>DN</label><br>
-        <input type="text" id="yellowField" name="DN" required><br><br>
+        <input type="text" id="yellowField" name="DN" value="{{ currentConfigDict['dn'] }}" required><br><br>
         <label>Password</label><br>
-        <input type="text" id="yellowField" name="PW" required><br><br>
+        <input type="text" id="yellowField" name="PW" value="{{ currentConfigDict['pw'] }}" required><br><br>
         <br>
         <br>
         <label>Search Base One (DN)</label><br>
-        <input type="text" id="yellowField" name="SearchBaseOne"><br><br>
+        <input type="text" id="yellowField" name="SearchBaseOne" value="{{ currentConfigDict['searchbaseone'] }}"><br><br>
         <label>Search Base One (Name)</label><br>
-        <input type="text" id="yellowField" name="SearchBaseOne_Name"><br><br>
+        <input type="text" id="yellowField" name="SearchBaseOne_Name" value="{{ currentConfigDict['searchbaseone-name'] }}"><br><br>
         <label>Search Base Two (DN)</label><br>
-        <input type="text" id="yellowField" name="SearchBaseTwo"><br><br>
+        <input type="text" id="yellowField" name="SearchBaseTwo" value="{{ currentConfigDict['searchbasetwo'] }}"><br><br>
         <label>Search Base Two (Name)</label><br>
-        <input type="text" id="yellowField" name="SearchBaseTwo_Name"><br><br>
+        <input type="text" id="yellowField" name="SearchBaseTwo_Name" value="{{ currentConfigDict['searchbasetwo-name'] }}"><br><br>
         <br>
         <br>
         <input type="submit" id="subButton" name="submitForm" value="Confirm">
