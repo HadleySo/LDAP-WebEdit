@@ -22,6 +22,7 @@ def connect():
     # Connect to LDAP server
     try:
         conn = ldap.initialize('ldap://' + ipAdd)
+        conn.set_option(ldap.OPT_NETWORK_TIMEOUT, 5)
         return conn
     except ldap.LDAPError as e:
         print("[ERROR] Unable to CONNECT to LDAP server")
