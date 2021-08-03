@@ -228,8 +228,13 @@ def deleteEntry(name=None):
     print("INFO: Incoming request at /deleteEntry " + request.method)
     print(request.form)
 
+    from .appActions import customLocale
+    localOptions = customLocale.getAll()
+
     if request.method == 'POST':
-        return render_template('deleteConfirm.html', entryInfo=request.form['deleteEntry'])
+        return render_template('deleteConfirm.html',
+                               entryInfo=request.form['deleteEntry'],
+                               localOptions=localOptions)
 
 
 @app.route('/deleteEntryConfirmed', methods=['POST', 'GET'])
