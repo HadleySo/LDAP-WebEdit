@@ -37,6 +37,12 @@ def main(request):
     notes = request.form['notes']
     if len(notes) < 1:
         notes = ""
+    else:
+        notes = notes.replace("'", "")
+
+    pNum = pNum.replace("'", "")
+    fName = fName.replace("'", "")
+    lName = lName.replace("'", "")
 
     dn = ""
     if request.form['addBase'] == 'baseOne':
