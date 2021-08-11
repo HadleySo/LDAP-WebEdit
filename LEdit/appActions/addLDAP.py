@@ -35,10 +35,6 @@ def main(request):
     fName = request.form['fName']
     pNum = request.form['pNum']
     notes = request.form['notes']
-    if len(notes) < 1:
-        notes = ""
-    else:
-        notes = notes.replace("'", "")
 
     pNum = pNum.replace("'", "")
     fName = fName.replace("'", "")
@@ -58,13 +54,22 @@ def main(request):
 
     # Create LDAP record Tuple
     dn = "cn=" + fName + "," + dn
-    recordTup = (
-        ('cn', bytes(fName, 'utf-8')),
-        ('objectclass', bytes('person', 'utf-8')),
-        ('sn', bytes(lName, 'utf-8')),
-        ('description', bytes(notes, 'utf-8')),
-        ('telephoneNumber', bytes(pNum, 'utf-8'))
-    )
+    if len(notes) < 1:
+        recordTup = (
+            ('cn', bytes(fName, 'utf-8')),
+            ('objectclass', bytes('person', 'utf-8')),
+            ('sn', bytes(lName, 'utf-8')),
+            ('telephoneNumber', bytes(pNum, 'utf-8'))
+        )
+    else:
+        notes = notes.replace("'", "")
+        recordTup = (
+            ('cn', bytes(fName, 'utf-8')),
+            ('objectclass', bytes('person', 'utf-8')),
+            ('sn', bytes(lName, 'utf-8')),
+            ('description', bytes(notes, 'utf-8')),
+            ('telephoneNumber', bytes(pNum, 'utf-8'))
+        )
 
     print("The created recordTup:")
     print(recordTup)
