@@ -1,6 +1,5 @@
 import configparser
 import os
-import re
 
 configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
 
