@@ -66,6 +66,18 @@ def index(name=None):
 
             return render_template('delete.html', baseOneName=BaseOne, baseTwoName=BaseTwo, searchTable=None, localOptions=localOptions)
 
+        if request.form.get('SendSMS'):
+            print("INFO: POST request to Send SMS")
+            from .appActions import sendMessage, customLocale
+            localOptions = customLocale.getAll()
+            rooms = sendMessage.getExt()
+
+            if (rooms != False):
+                return render_template('sendSMS.html', localOptions=localOptions, roomList=rooms)
+            else:
+                return render_template('index.html', blueMessage="Error in getting extestions", localOptions=localOptions)
+
+
         from .appActions import customLocale
         localOptions = customLocale.getAll()
         if request.form.get('cancelConfigEdit'):
@@ -80,6 +92,9 @@ def index(name=None):
         if request.form.get('cancelDelete'):
             print("INFO: POST request to go cancel delete")
             return render_template('index.html', blueMessage="LDAP delete canceled", localOptions=localOptions)
+        if request.form.get('cancelSMS'):
+            print("INFO: POST request to go cancel SMS")
+            return render_template('index.html', blueMessage="SMS message canceled", localOptions=localOptions)
 
     from .appActions import customLocale
     localOptions = customLocale.getAll()
@@ -256,6 +271,26 @@ def deleteEntryConfirmed(name=None):
                                    request.form['deleteConfirmed'],
                                    localOptions=localOptions)
 
+@app.route('/sendSMS', methods=['POST', 'GET'])
+def sendSMS(name=None):
+    print("INFO: Incoming request at /sendSMS " + request.method)
+    print(request.form)
+
+    if request.method == 'POST':
+        from .appActions import sendMessage, customLocale
+        localOptions = customLocale.getAll()
+
+        sendResponse = sendMessage.sendTextMessage(request)
+
+        if (sendResponse[0] == False):
+            message = "MESSAGE SEND FAILURE \n" + str(sendResponse[1])
+            return render_template('index.html', blueMessage=message, localOptions=localOptions)
+        if (sendResponse[0] == True):
+            message = "Message sent successfully\n" + str(sendResponse[1])
+            return render_template('index.html', blueMessage=message, localOptions=localOptions)
+        else:
+            message = "MESSAGE SEND FAILURE \nUnknown error!"
+            return render_template('index.html', blueMessage=message, localOptions=localOptions)
 
 @app.errorhandler(404)
 def page_not_found(error):

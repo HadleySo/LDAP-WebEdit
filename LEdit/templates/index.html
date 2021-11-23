@@ -18,17 +18,20 @@ Start
         {% block localNameHeader %}
             {{ localOptions['name'] }}
         {% endblock %}
-        LDAP Directory
+        Internal Phone Functions
     </p>
 </div>
 
 <div id="grid-left">
     <form method="POST" action="/">
-        <button class="yellowButton" value="SearchEntry" name="SearchEntry">Search</button>
+        <button class="yellowButton" value="SearchEntry" name="SearchEntry">Search Directory</button>
         <br>
-        <button class="yellowButton" value="DelEntry" name="DelEntry">Delete</button>
+        <button class="yellowButton" value="DelEntry" name="DelEntry">Edit Directory</button>
         <br>
-        <button class="yellowButton" value="AddEntry" name="AddEntry">Add</button>
+        <button class="yellowButton" value="AddEntry" name="AddEntry">Add Directory</button>
+        <br>
+        <button class="yellowButton" value="SendSMS" name="SendSMS">Send SMS</button>
+
     </form>
     <p>{{ blueMessage }}</p>
 </div>

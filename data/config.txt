@@ -9,3 +9,7 @@ searchbasetwo-name = PhoneBook Two
 dn = dc=example,dc=com
 pw = passwordishere
 
+[SIPTXT]
+port = 5060
+systemname = INTERNAL-PBX
+systemdomain = downtonabbey.com

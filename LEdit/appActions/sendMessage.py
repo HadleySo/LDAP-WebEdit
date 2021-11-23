@@ -5,6 +5,7 @@ import configparser
 import os
 
 configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
+extentionMap = os.path.normpath((__file__) + "../../../../data/extMap.txt")
 
 # MESSAGE sip:user2@domain.com SIP/2.0
 # Via: SIP/2.0/TCP user1pc.domain.com;branch=z9hG4bK776sgdkse
@@ -18,7 +19,7 @@ configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
 
 # Watson, come here.
 
-def sendTextMessage(DES_EXT, DES_IP, MESSAGE):
+def sendTextMessage(request):
 
     try:
         cfg = configparser.ConfigParser()
@@ -26,11 +27,35 @@ def sendTextMessage(DES_EXT, DES_IP, MESSAGE):
     except Exception as e:
         print("[ERROR] sendMessge.py - Failed to read config file")
         print(str(e))
-        return False
+        return [False, str(e)]
 
-    R_PORT = cfg.get('SIPTXT', 'port')
-    SYS_NAME = cfg.get('SIPTXT', 'systemname')
-    SYS_DOMAIN = cfg.get('SIPTXT', 'systemdomain')
+    DESTINATION_PLAIN = request.form['dest_ext']
+
+    try:
+        extMap = configparser.ConfigParser()
+        extMap.read(extentionMap)
+    except Exception as e:
+        print("[ERROR] sendMessge.py - Failed to read extention map file")
+        print(str(e))
+        return [False, str(e)]
+
+    try:
+        DES_EXT = extMap.get(DESTINATION_PLAIN, 'extension')
+        DES_IP = extMap.get(DESTINATION_PLAIN, 'ip_address')
+        MESSAGE = request.form['message']
+    except Exception as e:
+        print("[ERROR] sendMessge.py - Failed to get extension IP or number")
+        print(str(e))
+        return [False, str(e)]
+
+    try:
+        R_PORT = cfg.get('SIPTXT', 'port')
+        SYS_NAME = cfg.get('SIPTXT', 'systemname')
+        SYS_DOMAIN = cfg.get('SIPTXT', 'systemdomain')
+    except Exception as e:
+        print("[ERROR] sendMessge.py - Failed to get system SIP SMS info")
+        print(str(e))
+        return [False, str(e)]
 
     # Line one message
     message = "MESSAGE sip:" 
@@ -79,7 +104,7 @@ def sendTextMessage(DES_EXT, DES_IP, MESSAGE):
 
     # Line eight Length
     message += "Content-Length: "
-    message += len(MESSAGE)
+    message += str(len(MESSAGE))
     message += "\r\n"
 
     message += "\r\n"
@@ -87,10 +112,35 @@ def sendTextMessage(DES_EXT, DES_IP, MESSAGE):
 
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+    output = ""
+
     try:
-        s.sendto(bytes(message, 'utf-8'), (str(DES_IP), int(R_PORT)))
-    except socket.error:
-        pass
+        output = s.sendto(bytes(message, 'utf-8'), (str(DES_IP), int(R_PORT)))
+    except Exception as e:
+        print("[ERROR] sendMessge.py - Failed to send message")
+        print(str(e))
+        return [False, str(e)]
     finally:
         s.close()
+    
+    return [True, str(output)]
 
+def getExt():
+    # Try to read ext map file
+    try:
+        extMap = configparser.ConfigParser()
+        extMap.read(extentionMap)
+    except Exception as e:
+        print("[ERROR] sendMessge.py - Failed to read extention map file")
+        print(str(e))
+        return False
+    
+    # Try to read sections/rooms
+    try:
+        rooms = extMap.sections()
+    except Exception as e:
+        print("[ERROR] Failed to read config sections")
+        print(str(e))
+        return False
+    
+    return rooms
