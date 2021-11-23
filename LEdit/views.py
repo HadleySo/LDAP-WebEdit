@@ -287,7 +287,8 @@ def sendSMS(name=None):
             return render_template('index.html', blueMessage=message, localOptions=localOptions)
         if (sendResponse[0] == True):
             message = "Message sent successfully - " + str(sendResponse[1])
-            return render_template('sendSMS.html', blueMessage=message, localOptions=localOptions)
+            rooms = sendMessage.getExt()
+            return render_template('sendSMS.html', blueMessage=message, localOptions=localOptions, roomList=rooms)
         else:
             message = "MESSAGE SEND FAILURE - Unknown error!"
             return render_template('index.html', blueMessage=message, localOptions=localOptions)

@@ -58,8 +58,8 @@ def sendTextMessage(request):
         return [False, "Message too long!"]
     elif (len(MESSAGE) < 2):
         return [False, "Message too short!"]
-    elif str(MESSAGE).find('"'):
-        return [False, "Message contains invalid characters."]
+
+    MESSAGE = str(MESSAGE).replace('"', '')
 
     try:
         R_PORT = cfg.get('SIPTXT', 'port')
