@@ -29,7 +29,13 @@ def sendTextMessage(request):
         print(str(e))
         return [False, str(e)]
 
-    DESTINATION_PLAIN = request.form['dest_ext']
+    try:
+        DESTINATION_PLAIN = request.form['dest_ext']
+    except Exception as e:
+        print("[ERROR] sendMessge.py - Failed to get destination")
+        print(str(e))
+        message = "Destination not specified - " + str(e)
+        return [False, message]
 
     try:
         extMap = configparser.ConfigParser()
@@ -47,6 +53,13 @@ def sendTextMessage(request):
         print("[ERROR] sendMessge.py - Failed to get extension IP or number")
         print(str(e))
         return [False, str(e)]
+
+    if (len(MESSAGE) > 255):
+        return [False, "Message too long!"]
+    elif (len(MESSAGE) < 2):
+        return [False, "Message too short!"]
+    elif str(MESSAGE).find('"'):
+        return [False, "Message contains invalid characters."]
 
     try:
         R_PORT = cfg.get('SIPTXT', 'port')

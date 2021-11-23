@@ -283,13 +283,13 @@ def sendSMS(name=None):
         sendResponse = sendMessage.sendTextMessage(request)
 
         if (sendResponse[0] == False):
-            message = "MESSAGE SEND FAILURE \n" + str(sendResponse[1])
+            message = "MESSAGE SEND FAILURE - " + str(sendResponse[1])
             return render_template('index.html', blueMessage=message, localOptions=localOptions)
         if (sendResponse[0] == True):
-            message = "Message sent successfully\n" + str(sendResponse[1])
-            return render_template('index.html', blueMessage=message, localOptions=localOptions)
+            message = "Message sent successfully - " + str(sendResponse[1])
+            return render_template('sendSMS.html', blueMessage=message, localOptions=localOptions)
         else:
-            message = "MESSAGE SEND FAILURE \nUnknown error!"
+            message = "MESSAGE SEND FAILURE - Unknown error!"
             return render_template('index.html', blueMessage=message, localOptions=localOptions)
 
 @app.errorhandler(404)
