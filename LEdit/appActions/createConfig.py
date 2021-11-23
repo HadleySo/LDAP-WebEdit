@@ -1,5 +1,6 @@
 import configparser
 import os
+import re
 
 configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
 
@@ -18,7 +19,10 @@ def main(request):
         cfg['CREDENTIALS'] = {'DN': request.form['DN'],
                               'PW': request.form['PW']}
         cfg['LOCAL'] = {'backgroundColor': request.form['backColor']}
-
+        cfg['SIPTXT'] = {'port': request.form['SIPtextPort'],
+                            'systemname': request.form['SIPtextSystemName'],
+                            'systemdomain' :request.form['SIPtextSystemDomain']}
+                            
         with open(configPathFull, 'w') as saveConfig:
             cfg.write(saveConfig)                           # save config
 

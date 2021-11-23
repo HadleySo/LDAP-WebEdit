@@ -1,22 +1,7 @@
-{% extends "base.html" %}
-
-{% block title %}
-Config
-{% endblock %}
-{% block localName %}
-    {{ localOptions['name'] }}
-{% endblock %}
-{% block CSS %}
-<link rel="stylesheet" href="static/CSS/config.css">
-{% endblock %}
-
-{% block bodyContent %}
+{% extends "base.html" %} {% block title %} Config {% endblock %} {% block localName %} {{ localOptions['name'] }} {% endblock %} {% block CSS %}
+<link rel="stylesheet" href="static/CSS/config.css"> {% endblock %} {% block bodyContent %}
 <div id="grid-top">
-    <p id="title">Edit 
-        {% block localNameHeader %}
-            {{ localOptions['name'] }}
-        {% endblock %}
-        Config
+    <p id="title">Edit {% block localNameHeader %} {{ localOptions['name'] }} {% endblock %} Config
     </p>
 </div>
 
@@ -44,6 +29,14 @@ Config
         <input type="text" id="yellowField" name="SearchBaseTwo" value="{{ currentConfigDict['searchbasetwo'] }}"><br><br>
         <label>Search Base Two (Name)</label><br>
         <input type="text" id="yellowField" name="SearchBaseTwo_Name" value="{{ currentConfigDict['searchbasetwo-name'] }}"><br><br>
+        <br>
+        <br>
+        <label>SIP Port</label><br>
+        <input type="text" id="yellowField" name="SIPtextPort" value="{{ currentConfigDict['port'] }}" required><br><br>
+        <label>System Name</label><br>
+        <input type="text" id="yellowField" name="SIPtextSystemName" value="{{ currentConfigDict['systemname'] }}" required><br><br>
+        <label>System Domain</label><br>
+        <input type="text" id="yellowField" name="SIPtextSystemDomain" value="{{ currentConfigDict['systemdomain'] }}" required><br><br>
         <br>
         <br>
         <input type="submit" id="subButton" name="submitForm" value="Confirm">
