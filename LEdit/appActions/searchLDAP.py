@@ -95,14 +95,20 @@ def searchQuerryFull(request):
         connections.disconnect(conn)
         return querryResult
 
-    if request.form['searchField'] == 'notes':
-        searchFilter = "(&(objectclass=person)(description=" + searchStr + "))"
-    elif request.form['searchField'] == 'pNum':
-        searchFilter = "(&(objectclass=person)(telephoneNumber=" + searchStr + "))"
-    elif request.form['searchField'] == 'lName':
-        searchFilter = "(&(objectclass=person)(sn=" + searchStr + "))"
-    elif request.form['searchField'] == 'fName':
-        searchFilter = "(&(objectclass=person)(cn=" + searchStr + "))"
+    try:
+        if request.form['searchField'] == 'notes':
+            searchFilter = "(&(objectclass=person)(description=" + searchStr + "))"
+        elif request.form['searchField'] == 'pNum':
+            searchFilter = "(&(objectclass=person)(telephoneNumber=" + searchStr + "))"
+        elif request.form['searchField'] == 'lName':
+            searchFilter = "(&(objectclass=person)(sn=" + searchStr + "))"
+        elif request.form['searchField'] == 'fName':
+            searchFilter = "(&(objectclass=person)(cn=" + searchStr + "))"
+    except Exception as e:
+        print("[ERROR] searchLDAP.py searchField was not specified.")
+        querryResult = [
+            False, "[ERROR] A Search Field was not selected."]
+        return querryResult
 
     print(searchFilter)
 
