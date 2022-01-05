@@ -25,14 +25,14 @@ def sendTextMessage(request):
         cfg = configparser.ConfigParser()
         cfg.read(configPathFull)
     except Exception as e:
-        print("[ERROR] sendMessge.py - Failed to read config file")
+        print("[ERROR] sendMessage.py - Failed to read config file")
         print(str(e))
         return [False, str(e)]
 
     try:
         DESTINATION_PLAIN = request.form['dest_ext']
     except Exception as e:
-        print("[ERROR] sendMessge.py - Failed to get destination")
+        print("[ERROR] sendMessage.py - Failed to get destination")
         print(str(e))
         message = "Destination not specified - " + str(e)
         return [False, message]
@@ -41,7 +41,7 @@ def sendTextMessage(request):
         extMap = configparser.ConfigParser()
         extMap.read(extentionMap)
     except Exception as e:
-        print("[ERROR] sendMessge.py - Failed to read extention map file")
+        print("[ERROR] sendMessage.py - Failed to read extention map file")
         print(str(e))
         return [False, str(e)]
 
@@ -50,7 +50,7 @@ def sendTextMessage(request):
         DES_IP = extMap.get(DESTINATION_PLAIN, 'ip_address')
         MESSAGE = request.form['message']
     except Exception as e:
-        print("[ERROR] sendMessge.py - Failed to get extension IP or number")
+        print("[ERROR] sendMessage.py - Failed to get extension IP or number")
         print(str(e))
         return [False, str(e)]
 
