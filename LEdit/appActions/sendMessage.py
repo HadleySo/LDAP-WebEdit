@@ -70,6 +70,11 @@ def sendTextMessage(request):
         print(str(e))
         return [False, str(e)]
 
+    try: 
+        SYS_NAME = request.form['systemname']
+    except:
+        print("[INFO] sendMessage.py - No system name specified in request")
+        
     # Line one message
     message = "MESSAGE sip:" 
     message += DES_EXT
