@@ -3,12 +3,13 @@
 Web based GUI LDAP editor for Cisco SPA LDAP.  
 
 
-A Flask application to edit remote LDAP phonebook entries.
+A Flask application to edit remote LDAP phonebook entries and Cisco SIP messaging.
 
-There are three functions:
+There are four functions:
 - Add
 - Delete
 - Search
+- SIP Messages
 
 The LDAP entry fields are designed for Cisco corporate phonebooks on OpenLDAP. Connections to the LDAP server are established when the user has submitted a valid request and is taken down as soon as the server responds.
 Authentication is only done during add and delete functions, otherwise LDAP is queried on an anonymous connection. A simple DN + Password authentication is used.
