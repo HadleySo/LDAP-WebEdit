@@ -4,10 +4,15 @@ searchbaseone = dc=example,dc=com
 searchbasetwo = dc=example,dc=com
 searchbaseone-name = PhoneBook Two
 searchbasetwo-name = PhoneBook Two
+localdisplayname =
 
 [CREDENTIALS]
 dn = dc=example,dc=com
 pw = passwordishere
+
+[LOCAL]
+backgroundcolor = #000000
+LDAP_add_notes = 
 
 [SIPTXT]
 port = 5060

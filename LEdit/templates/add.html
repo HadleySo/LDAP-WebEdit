@@ -25,7 +25,7 @@ Add
     <form method="POST" action="/add">
         <label>Last Name</label><br>
         <input type="text" id="yellowField" name="lName" required><br><br>
-        <label>First and Last Name</label><br>
+        <label>First and Last Name (Must be unique)</label><br>
         <input type="text" id="yellowField" name="fName" required><br><br>
         <label>Phone Number</label><br>
         <input type="text" id="yellowField" name="pNum" required><br><br>
@@ -39,6 +39,13 @@ Add
         <input type="radio" id="" name="addBase" value="baseTwo">
         <label>Base Two    {{ baseTwoName }}</label><br>
  
+        <br>
+        <br>
+
+        <p id="whiteText">
+            {{ localOptions['addNotes'] }}
+        </p>
+
         <br>
         <br>
         <input type="submit" id="subButton" name="submitForm" value="Add">

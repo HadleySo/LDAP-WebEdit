@@ -17,7 +17,8 @@ def main(request):
                        'LocalDisplayName': request.form['LocalDisplayName']}
         cfg['CREDENTIALS'] = {'DN': request.form['DN'],
                               'PW': request.form['PW']}
-        cfg['LOCAL'] = {'backgroundColor': request.form['backColor']}
+        cfg['LOCAL'] = {'backgroundColor': request.form['backColor'],
+                        'LDAP_add_notes': request.form['add_notes']}
         cfg['SIPTXT'] = {'port': request.form['SIPtextPort'],
                             'systemname': request.form['SIPtextSystemName'],
                             'systemdomain' :request.form['SIPtextSystemDomain']}

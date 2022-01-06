@@ -50,16 +50,38 @@ def getColorBack():
         print("[WARNING] Failed to read custom color")
         print(str(e))
         return genericColor
+ 
+def getAddNotes():
+    print("INFO: Reading LDAP add notes from config")
 
+    # Try to read config file
+    try:
+        cfg = configparser.ConfigParser()
+        cfg.read(configPathFull)
+    except Exception as e:
+        print("[WARNING] Failed to read config file")
+        print(str(e))
+        return ""
+
+    # Try to read sections
+    try:
+        notes = cfg.get('LOCAL', 'LDAP_add_notes')
+        return notes
+    except Exception as e:
+        print("[WARNING] Failed to read LDAP add notes")
+        print(str(e))
+        return ""
 
 def getAll():
-    print("INFO: Getting all custom localizaion options")
+    print("INFO: Getting all custom localization options")
 
     name = getName()
     color = getColorBack()
+    adding_notes = getAddNotes()
 
     localOpt = {
         "name": name,
-        "color": color
+        "color": color,
+        "addNotes": adding_notes
     }
     return localOpt
