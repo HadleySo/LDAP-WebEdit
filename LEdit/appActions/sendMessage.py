@@ -20,7 +20,7 @@ extentionMap = os.path.normpath((__file__) + "../../../../data/extMap.txt")
 # Watson, come here.
 
 def sendTextMessage(request):
-
+    # Get config
     try:
         cfg = configparser.ConfigParser()
         cfg.read(configPathFull)
@@ -29,13 +29,55 @@ def sendTextMessage(request):
         print(str(e))
         return [False, str(e)]
 
+    # Check if sending to one endpoint or all
+    if request.form['send_all'] == "false_send_all":
+        print("[INFO] sendMessage.py - sending to one endpoint")
+
+        try:
+            DESTINATION_PLAIN = request.form['dest_ext']
+        except Exception as e:
+            print("[ERROR] sendMessage.py - Failed to get destination")
+            print(str(e))
+            message = "Destination not specified - " + str(e)
+            return [False, message]
+
+        return sendMessageHelper(request, DESTINATION_PLAIN)
+
+    elif request.form['send_all'] == "true_send_all":
+        print("[INFO] sendMessage.py - sending to all endpoints")
+
+        try:
+            extMap = configparser.ConfigParser()
+            extMap.read(extentionMap)
+        except Exception as e:
+            print("[ERROR] sendMessage.py - Failed to read extention map file")
+            print(str(e))
+            return [False, str(e)]
+        
+        try:
+            rooms = extMap.sections()
+        except Exception as e:
+            print("[ERROR] sendMessage.py - Failed to read rooms from extention map file")
+            print(str(e))
+            return [False, str(e)]
+
+        for room in rooms:
+            result = sendMessageHelper(request, room)
+
+            if result[0] == False:
+                return result
+        result[1] = str(result[1]) + " - Sent to all"
+        return result
+
+def sendMessageHelper(request, DESTINATION_PLAIN):
+
     try:
-        DESTINATION_PLAIN = request.form['dest_ext']
+        cfg = configparser.ConfigParser()
+        cfg.read(configPathFull)
     except Exception as e:
-        print("[ERROR] sendMessage.py - Failed to get destination")
+        print("[ERROR] sendMessage.py - Failed to read config file")
         print(str(e))
-        message = "Destination not specified - " + str(e)
-        return [False, message]
+        return [False, str(e)]
 
     try:
         extMap = configparser.ConfigParser()
