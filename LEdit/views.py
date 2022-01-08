@@ -1,4 +1,5 @@
-from flask import render_template, request
+from flask import render_template, request, redirect
+from flask.helpers import url_for
 from LEdit import app
 
 
@@ -168,17 +169,12 @@ def add(name=None):
         localOptions = customLocale.getAll()
 
         if (addResult[0] == False):
-            return_message = "ERROR in adding LDAP entry" + str(addResult[1])
+            message = "ERROR in adding LDAP entry" + str(addResult[1])
+            return redirect(url_for(".requestSent", blueMessage=message))
 
-            return render_template('index.html',
-                                   blueMessage=return_message,
-                                   localOptions=localOptions)
         if (addResult[0] == True):
-            return_message = "ERROR in adding LDAP entry" + str(addResult[1])
-
-            return render_template('index.html',
-                                   blueMessage=return_message,
-                                   localOptions=localOptions)
+            message = "Success! - " + str(addResult[1])
+            return redirect(url_for(".requestSent", blueMessage=message))
 
 
 @app.route('/deleteSearch', methods=['POST', 'GET'])
@@ -255,15 +251,14 @@ def deleteEntryConfirmed(name=None):
         from .appActions import deleteLDAP, customLocale
         deleteResult = deleteLDAP.deleteRequesetFull(
             request.form['deleteConfirmed'])
-        localOptions = customLocale.getAll()
 
         if deleteResult[0] == False:
-            return render_template('delete.html', blueMessage=deleteResult[1], localOptions=localOptions)
+            message = deleteResult[1]
+            return redirect(url_for(".requestSent", blueMessage=message))
+
         elif deleteResult[0] == True:
-            return render_template('index.html',
-                                   blueMessage="Successfuly deleted:   " +
-                                   request.form['deleteConfirmed'],
-                                   localOptions=localOptions)
+            message = "Successfully deleted:   " + request.form['deleteConfirmed']
+            return redirect(url_for(".requestSent", blueMessage=message))
 
 @app.route('/sendSMS', methods=['POST', 'GET'])
 def sendSMS(name=None):
@@ -272,20 +267,27 @@ def sendSMS(name=None):
 
     if request.method == 'POST':
         from .appActions import sendMessage, customLocale
-        localOptions = customLocale.getAll()
 
         sendResponse = sendMessage.sendTextMessage(request)
 
         if (sendResponse[0] == False):
             message = "MESSAGE SEND FAILURE - " + str(sendResponse[1])
-            return render_template('index.html', blueMessage=message, localOptions=localOptions)
+            return redirect(url_for(".requestSent", blueMessage=message))
         if (sendResponse[0] == True):
             message = "Message sent successfully - " + str(sendResponse[1])
-            rooms = sendMessage.getExt()
-            return render_template('index.html', blueMessage=message, localOptions=localOptions, roomList=rooms)
+            return redirect(url_for(".requestSent", blueMessage=message))
         else:
             message = "MESSAGE SEND FAILURE - Unknown error!"
-            return render_template('index.html', blueMessage=message, localOptions=localOptions)
+            return redirect(url_for(".requestSent", blueMessage=message))
+
+@app.route('/requestSent', methods=['GET'])
+def requestSent(name=None):
+    from .appActions import customLocale
+    localOptions = customLocale.getAll()
+
+    bMessage= request.args.get('blueMessage')
+
+    return render_template('index.html', blueMessage=bMessage, localOptions=localOptions)
 
 @app.errorhandler(404)
 def page_not_found(error):
