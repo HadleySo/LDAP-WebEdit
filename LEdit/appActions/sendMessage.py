@@ -66,7 +66,7 @@ def sendTextMessage(request):
 
             if result[0] == False:
                 return result
-        result[1] = str(result[1]) + " - Sent to all"
+        result[1] = str(result[1]) + " - SENT TO ALL"
         return result
 
 def sendMessageHelper(request, DESTINATION_PLAIN):
@@ -183,7 +183,8 @@ def sendMessageHelper(request, DESTINATION_PLAIN):
     finally:
         s.close()
     
-    return [True, str(output)]
+    return_message = str(output) + " - {MGS: " + MESSAGE + "}"
+    return [True, str(return_message)]
 
 def getExt():
     # Try to read ext map file

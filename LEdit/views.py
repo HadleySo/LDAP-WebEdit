@@ -166,24 +166,18 @@ def add(name=None):
         from .appActions import addLDAP, customLocale
         addResult = addLDAP.main(request)
         localOptions = customLocale.getAll()
-        if (addResult[0] == False):
-            from .appActions import searchLDAP              # Get DN Base names if possible
-            names = searchLDAP.getBaseName()
-            BaseOne, BaseTwo = "", ""
-            if not (names == False):
-                BaseOne = ": " + names[0]
-                BaseTwo = ": " + names[1]
 
-            return render_template('add.html',
-                                   blueMessage="ERROR in adding LDAP entry",
-                                   addResults=addResult[1],
-                                   baseOneName=BaseOne,
-                                   baseTwoName=BaseTwo,
+        if (addResult[0] == False):
+            return_message = "ERROR in adding LDAP entry" + str(addResult[1])
+
+            return render_template('index.html',
+                                   blueMessage=return_message,
                                    localOptions=localOptions)
         if (addResult[0] == True):
-            return render_template('add.html',
-                                   blueMessage="Success!",
-                                   addResults=addResult[1],
+            return_message = "ERROR in adding LDAP entry" + str(addResult[1])
+
+            return render_template('index.html',
+                                   blueMessage=return_message,
                                    localOptions=localOptions)
 
 
@@ -288,7 +282,7 @@ def sendSMS(name=None):
         if (sendResponse[0] == True):
             message = "Message sent successfully - " + str(sendResponse[1])
             rooms = sendMessage.getExt()
-            return render_template('sendSMS.html', blueMessage=message, localOptions=localOptions, roomList=rooms)
+            return render_template('index.html', blueMessage=message, localOptions=localOptions, roomList=rooms)
         else:
             message = "MESSAGE SEND FAILURE - Unknown error!"
             return render_template('index.html', blueMessage=message, localOptions=localOptions)

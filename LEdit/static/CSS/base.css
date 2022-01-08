@@ -50,7 +50,7 @@ body {
     margin: 0;
     padding: 0;
 
-    font-family: 'ave';
+    font-family: 'ave', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .yellowButton, .blueButton {
@@ -62,7 +62,7 @@ body {
     background: transparent;
 
     text-align: center;
-    font-family: 'ave';
+    font-family: 'ave', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1.7vmax;
     
     padding: 3px;
@@ -80,7 +80,7 @@ body {
     display: inline;
 }
 #footer p {
-    font-family: 'ave';
+    font-family: 'ave', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: var(--color-gray);
 
     margin: 0;
