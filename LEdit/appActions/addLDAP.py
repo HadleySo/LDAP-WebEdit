@@ -1,5 +1,5 @@
-import configparser
 import os
+import re
 
 configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
 
@@ -36,9 +36,11 @@ def main(request):
     pNum = request.form['pNum']
     notes = request.form['notes']
 
-    pNum = pNum.replace("'", "")
     fName = fName.replace("'", "")
     lName = lName.replace("'", "")
+
+    pattern_regex = "[^0-9-]"
+    pNum = re.sub(pattern_regex, '', pNum)
 
     dn = ""
     if request.form['addBase'] == 'baseOne':
@@ -84,8 +86,8 @@ def main(request):
         connections.disconnect(conn)
         return addResult
     except Exception as e:
-        print("[ERROR] Unable to add entry after creating recordTupple " + str(e))
+        print("[ERROR] Unable to add entry after creating recordTuple " + str(e))
         addResult = [
-            False, "[ERROR] Unable to add entry after creating recordTupple. " + str(e)]
+            False, "[ERROR] Unable to add entry after creating recordTuple. " + str(e)]
         connections.disconnect(conn)
         return addResult
