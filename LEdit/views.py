@@ -308,6 +308,7 @@ def callLog(name=None):
     print("INFO: Incoming request at callLog")
     print(request.form)
     from .appActions import phoneLog
+    import random
 
     dest_ext = request.args.get('dest_ext')
     webpage = phoneLog.getCalls(dest_ext)
@@ -317,8 +318,27 @@ def callLog(name=None):
         message = "Failed to retrive call history "
         return redirect(url_for(".requestSent", blueMessage=message))
 
-    return (webpage[2], webpage[1].status_code, webpage[1].headers.items())
+    file_num = random.randint(22222,88888)
+    file_loc = "/tmp/log-" + str(file_num)
+    with open(file_loc, "w") as tmp_file:
+        tmp_file.write(webpage[2])
+    
+    return redirect(url_for(".reqFile", file=str(file_num)))
 
+@app.route('/reqFile', methods=['GET'])
+def reqFile(name=None):
+    from flask import send_file
+
+    print("INFO: Incoming request at reqFile")
+
+    try:
+        file_num = request.args.get('file')
+
+        file_loc = "/tmp/log-" + str(file_num)
+        return send_file(file_loc, mimetype="html", as_attachment=False)
+    except:
+        message = "That file has expired or no longer exists"
+        return redirect(url_for(".requestSent", blueMessage=message))
 
 @app.errorhandler(404)
 def page_not_found(error):
