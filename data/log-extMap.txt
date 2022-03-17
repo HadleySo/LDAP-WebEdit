@@ -7,4 +7,3 @@ name = Dining Room
 ip_address = 192.168.10.102
 extension = 1002
 name = Bathroom
-

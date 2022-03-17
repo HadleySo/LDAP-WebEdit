@@ -4,21 +4,11 @@ logMap = os.path.normpath((__file__) + "../../../../data/log-extMap.txt")
 
 def getCalls(request):
     import requests, configparser, bs4
-
-    configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
     
     try:
-        DESTINATION_PLAIN = request
+        DESTINATION_ID = request
     except Exception as e:
-        print("[ERROR] phoneLog.py - Failed to get DESTINATION_PLAIN from request")
-        print(str(e))
-        return [False, str(e)]
-
-    try:
-        cfg = configparser.ConfigParser()
-        cfg.read(configPathFull)
-    except Exception as e:
-        print("[ERROR] phoneLog.py - Failed to read config file")
+        print("[ERROR] phoneLog.py - Failed to get DESTINATION_ID from request")
         print(str(e))
         return [False, str(e)]
 
@@ -31,7 +21,7 @@ def getCalls(request):
         return [False, str(e)]
 
     try:
-        DES_IP = extMap.get(DESTINATION_PLAIN, 'ip_address')
+        DES_IP = extMap.get(DESTINATION_ID, 'ip_address')
     except Exception as e:
         print("[ERROR] phoneLog.py - Failed to get extension IP or number")
         print(str(e))
@@ -88,9 +78,17 @@ def getExt():
     # Try to read sections/rooms
     try:
         rooms = extMap.sections()
+        
+        roomArray = []                                      # each entry is another array of [id, name] 
+        for room in rooms:
+            tempArray = ["id", "name"]
+            tempArray[0] = room
+            tempArray[1] = extMap.get(room, "name")
+            roomArray.append(tempArray)
+
     except Exception as e:
-        print("[ERROR] Failed to read config sections")
+        print("[ERROR] phoneLog.py - Failed to read config sections")
         print(str(e))
         return False
     
-    return rooms
+    return roomArray

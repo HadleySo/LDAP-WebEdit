@@ -34,14 +34,14 @@ def sendTextMessage(request):
         print("[INFO] sendMessage.py - sending to one endpoint")
 
         try:
-            DESTINATION_PLAIN = request.form['dest_ext']
+            DESTINATION_ID = request.form['dest_id']
         except Exception as e:
             print("[ERROR] sendMessage.py - Failed to get destination")
             print(str(e))
             message = "Destination not specified - " + str(e)
             return [False, message]
 
-        return sendMessageHelper(request, DESTINATION_PLAIN)
+        return sendMessageHelper(request, DESTINATION_ID)
 
     elif request.form['send_all'] == "true_send_all":
         print("[INFO] sendMessage.py - sending to all endpoints")
@@ -69,7 +69,7 @@ def sendTextMessage(request):
         result[1] = str(result[1]) + " - SENT TO ALL"
         return result
 
-def sendMessageHelper(request, DESTINATION_PLAIN):
+def sendMessageHelper(request, DESTINATION_ID):
 
     try:
         cfg = configparser.ConfigParser()
@@ -88,8 +88,8 @@ def sendMessageHelper(request, DESTINATION_PLAIN):
         return [False, str(e)]
 
     try:
-        DES_EXT = extMap.get(DESTINATION_PLAIN, 'extension')
-        DES_IP = extMap.get(DESTINATION_PLAIN, 'ip_address')
+        DES_EXT = extMap.get(DESTINATION_ID, 'extension')
+        DES_IP = extMap.get(DESTINATION_ID, 'ip_address')
         MESSAGE = request.form['message']
     except Exception as e:
         print("[ERROR] sendMessage.py - Failed to get extension IP or number")
@@ -192,16 +192,24 @@ def getExt():
         extMap = configparser.ConfigParser()
         extMap.read(extentionMap)
     except Exception as e:
-        print("[ERROR] sendMessge.py - Failed to read extention map file")
+        print("[ERROR] sendMessage.py - Failed to read extention map file")
         print(str(e))
         return False
     
     # Try to read sections/rooms
     try:
         rooms = extMap.sections()
+        
+        roomArray = []                                      # each entry is another array of [id, name] 
+        for room in rooms:
+            tempArray = ["id", "name"]
+            tempArray[0] = room
+            tempArray[1] = extMap[room]["name"]
+            roomArray.append(tempArray)
+
     except Exception as e:
-        print("[ERROR] Failed to read config sections")
+        print("[ERROR] sendMessage.py - Failed to read config sections")
         print(str(e))
         return False
     
-    return rooms
+    return roomArray

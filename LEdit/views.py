@@ -310,8 +310,8 @@ def callLog(name=None):
     from .appActions import phoneLog
     import random
 
-    dest_ext = request.args.get('dest_ext')
-    webpage = phoneLog.getCalls(dest_ext)
+    dest_id = request.args.get('dest_id')
+    webpage = phoneLog.getCalls(dest_id)
 
     print("INFO: Checking if Call Log webpage worked")
     if webpage[0] == False:

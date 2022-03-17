@@ -25,8 +25,8 @@ Search
         <label>Get Log From:</label><br>
 
         {% for result in roomList %}
-        <input type="radio" id="" name="dest_ext" value={{ result }}>
-        <label>{{ result }}</label><br>
+        <input type="radio" id="" name="dest_id" value={{ result[0] }}>
+        <label>{{ result[1] }}</label><br>
         {% endfor %}
 
         <br>
