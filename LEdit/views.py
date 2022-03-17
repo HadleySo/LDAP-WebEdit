@@ -76,7 +76,7 @@ def index(name=None):
             if (rooms != False):
                 return render_template('sendSMS.html', localOptions=localOptions, roomList=rooms)
             else:
-                return render_template('index.html', blueMessage="Error in getting extestions", localOptions=localOptions)
+                return render_template('index.html', blueMessage="Error in getting extensions", localOptions=localOptions)
 
         if request.form.get('getCallLog'):
             print("INFO: POST request to get call log")
@@ -87,7 +87,7 @@ def index(name=None):
             if (rooms != False):
                 return render_template('phoneLogs.html', localOptions=localOptions, roomList=rooms)
             else:
-                return render_template('index.html', blueMessage="Error in getting extestions", localOptions=localOptions)
+                return render_template('index.html', blueMessage="Error in getting extensions", localOptions=localOptions)
 
         from .appActions import customLocale
         localOptions = customLocale.getAll()
