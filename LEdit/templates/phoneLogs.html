@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Search
+{% endblock %}
+{% block localName %}
+    {{ localOptions['name'] }}
+{% endblock %}
+{% block CSS %}
+<link rel="stylesheet" href="static/CSS/sendSMS.css">
+{% endblock %}
+
+{% block bodyContent %}
+<div id="grid-top">
+    <p id="title">  
+        {% block localNameHeader %}
+            {{ localOptions['name'] }}
+        {% endblock %}
+        Get Call Logs
+    </p>
+</div>
+
+<div id="grid-left">
+    <form method="GET" action="/callLog">
+        <label>Get Log From:</label><br>
+
+        {% for result in roomList %}
+        <input type="radio" id="" name="dest_ext" value={{ result }}>
+        <label>{{ result }}</label><br>
+        {% endfor %}
+
+        <br>
+        <br>
+        <input type="submit" id="subButton" name="submitForm" value="Request">
+    </form>
+
+</div>
+
+<div id="grid-right">
+    <form method="POST" action="/">
+        <button class="yellowButton" value="cancelPhoneLog" name="cancelPhoneLog">Cancel</button>
+    </form>
+
+    <p id="blueText">{{ blueMessage }}</p>
+    
+    <p id="grayText">
+        Copyright 2022. <br>
+    </p>
+</div>
+{% endblock %}

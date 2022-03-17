@@ -78,6 +78,16 @@ def index(name=None):
             else:
                 return render_template('index.html', blueMessage="Error in getting extestions", localOptions=localOptions)
 
+        if request.form.get('getCallLog'):
+            print("INFO: POST request to get call log")
+            from .appActions import phoneLog, customLocale
+            localOptions = customLocale.getAll()
+            rooms = phoneLog.getExt()
+
+            if (rooms != False):
+                return render_template('phoneLogs.html', localOptions=localOptions, roomList=rooms)
+            else:
+                return render_template('index.html', blueMessage="Error in getting extestions", localOptions=localOptions)
 
         from .appActions import customLocale
         localOptions = customLocale.getAll()
@@ -96,6 +106,9 @@ def index(name=None):
         if request.form.get('cancelSMS'):
             print("INFO: POST request to go cancel SMS")
             return render_template('index.html', blueMessage="SMS message canceled", localOptions=localOptions)
+        if request.form.get('cancelPhoneLog'):
+            print("INFO: POST request to go cancel get Phone Log")
+            return render_template('index.html', blueMessage="Phone log canceled", localOptions=localOptions)
 
     from .appActions import customLocale
     localOptions = customLocale.getAll()
@@ -288,6 +301,24 @@ def requestSent(name=None):
     bMessage= request.args.get('blueMessage')
 
     return render_template('index.html', blueMessage=bMessage, localOptions=localOptions)
+
+
+@app.route('/callLog', methods=['GET'])
+def callLog(name=None):
+    print("INFO: Incoming request at callLog")
+    print(request.form)
+    from .appActions import phoneLog
+
+    dest_ext = request.args.get('dest_ext')
+    webpage = phoneLog.getCalls(dest_ext)
+
+    print("INFO: Checking if Call Log webpage worked")
+    if webpage[0] == False:
+        message = "Failed to retrive call history "
+        return redirect(url_for(".requestSent", blueMessage=message))
+
+    return (webpage[2], webpage[1].status_code, webpage[1].headers.items())
+
 
 @app.errorhandler(404)
 def page_not_found(error):
