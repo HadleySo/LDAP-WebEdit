@@ -22,10 +22,10 @@ def main(line: int, info: dict):
         return modify_6(file_path, info)
 
     elif line == "07":
-        return modify_6(file_path, info)
+        return modify_7(file_path, info)
 
     elif line == "08":
-        return modify_6(file_path, info)
+        return modify_8(file_path, info)
 
 
 def modify_5(file_path: str, info: dict):
