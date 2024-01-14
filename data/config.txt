@@ -18,3 +18,6 @@ LDAP_add_notes =
 port = 5060
 systemname = INTERNAL-PBX
 systemdomain = downtonabbey.com
+
+[PROVISIONING]
+file = /full/path/config.xml

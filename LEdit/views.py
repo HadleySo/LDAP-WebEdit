@@ -67,27 +67,12 @@ def index(name=None):
 
             return render_template('delete.html', baseOneName=BaseOne, baseTwoName=BaseTwo, searchTable=None, localOptions=localOptions)
 
-        if request.form.get('SendSMS'):
-            print("INFO: POST request to Send SMS")
-            from .appActions import sendMessage, customLocale
+            
+        if request.form.get('SpeedDial'):
+            from .appActions import customLocale
             localOptions = customLocale.getAll()
-            rooms = sendMessage.getExt()
+            return render_template('speedDial.html', localOptions=localOptions)
 
-            if (rooms != False):
-                return render_template('sendSMS.html', localOptions=localOptions, roomList=rooms)
-            else:
-                return render_template('index.html', blueMessage="Error in getting extensions", localOptions=localOptions)
-
-        if request.form.get('getCallLog'):
-            print("INFO: POST request to get call log")
-            from .appActions import phoneLog, customLocale
-            localOptions = customLocale.getAll()
-            rooms = phoneLog.getExt()
-
-            if (rooms != False):
-                return render_template('phoneLogs.html', localOptions=localOptions, roomList=rooms)
-            else:
-                return render_template('index.html', blueMessage="Error in getting extensions", localOptions=localOptions)
 
         from .appActions import customLocale
         localOptions = customLocale.getAll()
@@ -273,72 +258,13 @@ def deleteEntryConfirmed(name=None):
             message = "Successfully deleted:   " + request.form['deleteConfirmed']
             return redirect(url_for(".requestSent", blueMessage=message))
 
-@app.route('/sendSMS', methods=['POST', 'GET'])
-def sendSMS(name=None):
-    print("INFO: Incoming request at /sendSMS " + request.method)
-    print(request.form)
+@app.route("/editSpeedDial", methods=['POST'])
+def editSpeedDial():
+    from .appActions import editProvisioning
 
-    if request.method == 'POST':
-        from .appActions import sendMessage, customLocale
+    editProvisioning.main(request.form['SpeedDial'], request.form)
 
-        sendResponse = sendMessage.sendTextMessage(request)
-
-        if (sendResponse[0] == False):
-            message = "MESSAGE SEND FAILURE - " + str(sendResponse[1])
-            return redirect(url_for(".requestSent", blueMessage=message))
-        if (sendResponse[0] == True):
-            message = "Message sent successfully - " + str(sendResponse[1])
-            return redirect(url_for(".requestSent", blueMessage=message))
-        else:
-            message = "MESSAGE SEND FAILURE - Unknown error!"
-            return redirect(url_for(".requestSent", blueMessage=message))
-
-@app.route('/requestSent', methods=['GET'])
-def requestSent(name=None):
-    from .appActions import customLocale
-    localOptions = customLocale.getAll()
-
-    bMessage= request.args.get('blueMessage')
-
-    return render_template('index.html', blueMessage=bMessage, localOptions=localOptions)
-
-
-@app.route('/callLog', methods=['GET'])
-def callLog(name=None):
-    print("INFO: Incoming request at callLog")
-    print(request.form)
-    from .appActions import phoneLog
-    import random
-
-    dest_id = request.args.get('dest_id')
-    webpage = phoneLog.getCalls(dest_id)
-
-    print("INFO: Checking if Call Log webpage worked")
-    if webpage[0] == False:
-        message = "Failed to retrive call history "
-        return redirect(url_for(".requestSent", blueMessage=message))
-
-    file_num = random.randint(22222,88888)
-    file_loc = "/tmp/log-" + str(file_num)
-    with open(file_loc, "w") as tmp_file:
-        tmp_file.write(webpage[2])
-    
-    return redirect(url_for(".reqFile", file=str(file_num)))
-
-@app.route('/reqFile', methods=['GET'])
-def reqFile(name=None):
-    from flask import send_file
-
-    print("INFO: Incoming request at reqFile")
-
-    try:
-        file_num = request.args.get('file')
-
-        file_loc = "/tmp/log-" + str(file_num)
-        return send_file(file_loc, mimetype="html", as_attachment=False)
-    except:
-        message = "That file has expired or no longer exists"
-        return redirect(url_for(".requestSent", blueMessage=message))
+    return redirect("/")
 
 @app.errorhandler(404)
 def page_not_found(error):

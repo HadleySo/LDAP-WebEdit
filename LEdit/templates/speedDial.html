@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+Search
+{% endblock %}
+{% block localName %}
+    {{ localOptions['name'] }}
+{% endblock %}
+{% block CSS %}
+<link rel="stylesheet" href="static/CSS/search.css">
+{% endblock %}
+
+{% block bodyContent %}
+<div id="grid-top">
+    <p id="title">
+        Edit Speed Dial 
+    </p>
+</div>
+
+<div id="grid-left">
+    <form method="POST" action="/editSpeedDial">
+        <label>Display Name:</label><br>
+        <input type="text" name="display" id="yellowField">
+        <br>
+        <label>Phone Number</label><br>
+        <input type="tel" name="phone" id="yellowField">
+        <br>
+        <br>
+        <br><br><br>
+        <button class="yellowButton" value="05" name="SpeedDial">Set Speed Dial 01</button>
+        <br>
+        <button class="yellowButton" value="06" name="SpeedDial">Set Speed Dial 02</button>
+        <br>
+        <button class="yellowButton" value="07" name="SpeedDial">Set Speed Dial 03</button>
+        <br>
+        <button class="yellowButton" value="08" name="SpeedDial">Set Speed Dial 04</button>
+    </form>
+
+</div>
+
+<div id="grid-right">
+    <form method="POST" action="/">
+        <button class="yellowButton" value="cancelSearch" name="cancelSearch">Cancel</button>
+    </form>
+
+
+    <p id="grayText">
+        2024 <br>
+    </p>
+</div>
+{% endblock %}

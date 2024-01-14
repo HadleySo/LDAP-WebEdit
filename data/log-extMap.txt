@@ -1,9 +1,0 @@
-[00001]
-ip_address = 192.168.10.101
-extension = 1001
-name = Dining Room
-
-[00002]
-ip_address = 192.168.10.102
-extension = 1002
-name = Bathroom
