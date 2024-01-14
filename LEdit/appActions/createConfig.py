@@ -7,6 +7,7 @@ configPathFull = os.path.normpath((__file__) + "../../../../data/config.txt")
 def main(request):
     try:
         cfg = configparser.ConfigParser()
+        cfg.read(configPathFull)
 
         # modify config
         cfg['LDAP'] = {'ip_address': request.form['ipAdd'],
@@ -19,9 +20,6 @@ def main(request):
                               'PW': request.form['PW']}
         cfg['LOCAL'] = {'backgroundColor': request.form['backColor'],
                         'LDAP_add_notes': request.form['add_notes']}
-        cfg['SIPTXT'] = {'port': request.form['SIPtextPort'],
-                            'systemname': request.form['SIPtextSystemName'],
-                            'systemdomain' :request.form['SIPtextSystemDomain']}
                             
         with open(configPathFull, 'w') as saveConfig:
             cfg.write(saveConfig)                           # save config
